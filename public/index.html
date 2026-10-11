@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>PPT Master AI • Studio Tạo Slide Thuyết Trình & Giáo Án Chuyên Nghiệp</title>
+  <title>PPT Master AI • Studio Slide Thuyết Trình Chuẩn Gamma</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -77,7 +77,7 @@
       border-color: #000000;
     }
 
-    /* Floating Bottom Dock */
+    /* Floating Bottom Dock (3 Tabs Only) */
     .dock-container {
       position: fixed;
       bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
@@ -151,7 +151,7 @@
       border-radius: 4px;
     }
 
-    /* Pulsing animations */
+    /* Laser scan animation */
     @keyframes laserScan {
       0% { top: 0%; opacity: 0.2; }
       50% { opacity: 0.9; }
@@ -161,15 +161,7 @@
       animation: laserScan 2.4s ease-in-out infinite alternate;
     }
 
-    @keyframes rotateSlow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .animate-spin-slow {
-      animation: rotateSlow 18s linear infinite;
-    }
-
-    /* Font classes */
+    /* Fonts */
     .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
     .font-playfair { font-family: 'Playfair Display', serif; }
     .font-space { font-family: 'Space Grotesk', sans-serif; }
@@ -181,27 +173,14 @@
   <!-- ========================================== -->
   <!-- MAIN APP CONTAINER -->
   <!-- ========================================== -->
-  <main class="max-w-4xl mx-auto px-3.5 sm:px-6 pt-3 sm:pt-6 pb-28">
+  <main class="max-w-4xl mx-auto px-3.5 sm:px-6 pt-3 sm:pt-5 pb-28">
 
     <!-- ========================================== -->
-    <!-- VIEW 1: TRANG CHỦ (HOME INTRODUCTION) -->
+    <!-- VIEW 1: TRANG CHỦ (HOME) - ĐÃ XÓA 2 MỤC TRÊN CÙNG -->
     <!-- ========================================== -->
     <section id="view-home" class="space-y-4 sm:space-y-6">
       
-      <!-- Top Branding Pill -->
-      <div class="flex items-center justify-between gap-2">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 border-2 border-black shadow-[2px_2px_0px_#000]">
-          <span class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-ping"></span>
-          <span class="text-xs font-black tracking-wide text-blue-950 uppercase">PPT Master AI • v2.5 Online</span>
-        </div>
-        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border-2 border-black shadow-[2px_2px_0px_#000]">
-          <span class="text-[11px] font-extrabold text-emerald-600 flex items-center gap-1">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Railway 9Router Active
-          </span>
-        </div>
-      </div>
-
-      <!-- Hero Banner -->
+      <!-- Hero Banner (Đã bỏ 2 pill trên cùng theo yêu cầu) -->
       <div class="neo-card p-5 sm:p-8 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white relative overflow-hidden">
         <div class="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
         <div class="relative z-10 space-y-3 sm:space-y-4">
@@ -213,7 +192,7 @@
             <span class="text-yellow-300 underline decoration-black decoration-4">Bộ Slide Thuyết Trình Thực Thụ</span>
           </h1>
           <p class="text-xs sm:text-base text-blue-100 font-medium leading-relaxed max-w-2xl">
-            Không còn phải chọn ô template tĩnh nhàm chán. Trò chuyện trực tiếp với AI, tải ảnh & giáo án, duyệt khung dàn ý sư phạm và để máy chủ kết xuất slide có hình ảnh, sơ đồ hình học SVG, bento cards & file PowerPoint native!
+            Thiết kế slide chuẩn Gamma & PPT-Master: Bố cục 16:9 widescreen sắc nét, biểu đồ cột SVG, thẻ số liệu lớn, layout split 2 cột và xuất file PowerPoint (.pptx) native!
           </p>
           
           <div class="pt-2 flex flex-col sm:flex-row gap-3">
@@ -236,7 +215,7 @@
           </div>
           <h3 class="font-black text-sm sm:text-base text-slate-900">Chat & Khung Dàn Ý</h3>
           <p class="text-xs text-slate-600 leading-relaxed font-medium">
-            Tải ảnh chụp giáo án hoặc file văn bản. AI bóc tách mục tiêu, dàn ý chi tiết để thầy/cô chỉnh sửa trực tiếp trước khi sinh slide.
+            Tải ảnh giáo án hoặc tài liệu. AI phân tích mục tiêu sư phạm và xuất khung dàn ý chi tiết để duyệt trước.
           </p>
         </div>
 
@@ -247,65 +226,65 @@
           </div>
           <h3 class="font-black text-sm sm:text-base text-slate-900">Chạy Ngầm Server + ETA</h3>
           <p class="text-xs text-slate-600 leading-relaxed font-medium">
-            Máy chủ Railway xử lý background độc lập có đồng hồ đếm ngược. Thầy/cô tự do chuyển tab, đọc báo mà không bao giờ gián đoạn.
+            Máy chủ Railway xử lý background độc lập có đồng hồ đếm ngược. Thầy/cô tự do chuyển tab, đọc báo mà không bị gián đoạn.
           </p>
         </div>
 
         <!-- Feature 3 -->
         <div class="neo-card p-4 sm:p-5 bg-white space-y-2">
           <div class="w-10 h-10 rounded-xl bg-purple-100 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-purple-600 font-black">
-            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+            <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
           </div>
-          <h3 class="font-black text-sm sm:text-base text-slate-900">Slide Thực Thụ Có Ảnh & SVG</h3>
+          <h3 class="font-black text-sm sm:text-base text-slate-900">Slide Thực Thụ Chuẩn Gamma</h3>
           <p class="text-xs text-slate-600 leading-relaxed font-medium">
-            Sơ đồ tam giác vuông SVG trực quan, thẻ bento công thức toán học, đổi font chữ, background và xuất file PowerPoint (.pptx).
+            Biểu đồ cột SVG, thẻ số liệu % lớn, sơ đồ tam giác vuông, layout 2 cột, đổi font chữ và xuất PowerPoint (.pptx).
           </p>
         </div>
       </div>
 
-      <!-- Quick Template Starters -->
+      <!-- Quick Starters -->
       <div class="neo-card p-4 sm:p-6 bg-white space-y-3">
         <div class="flex items-center justify-between">
           <h2 class="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
-            <i data-lucide="zap" class="w-4 h-4 text-blue-600"></i> Chủ Đề Mẫu Soạn Sẵn (Bấm 1 Chạm Để Tạo)
+            <i data-lucide="zap" class="w-4 h-4 text-blue-600"></i> Chủ Đề Soạn Sẵn (Bấm 1 Chạm Để Tạo)
           </h2>
-          <span class="text-[11px] font-bold text-slate-400 uppercase">Khám phá nhanh</span>
+          <span class="text-[11px] font-bold text-slate-400 uppercase">Gợi ý nhanh</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
           <!-- Quick 1 -->
-          <button onclick="quickStartTopic('Toán Hình Học 9: Khám Phá Tỉ Số Lượng Giác (Sin, Cos, Tan, Cot) với tam giác vuông')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
-            <span class="p-2 rounded-lg bg-blue-100 border border-black text-blue-700 shrink-0 font-black text-xs">📐</span>
+          <button onclick="quickStartTopic('Kỹ Năng Sống: Xây Dựng Trường Học Hạnh Phúc, Thay Bạo Lực Bằng Sự Lắng Nghe Và Thấu Cảm')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
+            <span class="p-2 rounded-lg bg-pink-100 border border-black text-pink-700 shrink-0 font-black text-xs">💖</span>
             <div class="space-y-0.5">
-              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Toán 9: Tỉ Số Lượng Giác & Tam Giác Vuông</h4>
-              <p class="text-[11px] text-slate-500 font-medium leading-tight">Gồm sơ đồ tam giác vuông SVG, công thức sin/cos/tan/cot và mẹo nhớ.</p>
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Xây Dựng Trường Học Hạnh Phúc</h4>
+              <p class="text-[11px] text-slate-500 font-medium leading-tight">Biểu đồ thống kê học đường, 3 trụ cột thấu cảm và thông điệp cam kết.</p>
             </div>
           </button>
 
           <!-- Quick 2 -->
-          <button onclick="quickStartTopic('Toán 10: Bất Phương Trình Bậc Nhất Hai Ẩn và Biểu Diễn Miền Nghiệm Oxy')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
-            <span class="p-2 rounded-lg bg-emerald-100 border border-black text-emerald-700 shrink-0 font-black text-xs">📊</span>
+          <button onclick="quickStartTopic('Toán Hình Học 9: Khám Phá Tỉ Số Lượng Giác (Sin, Cos, Tan, Cot) với tam giác vuông')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
+            <span class="p-2 rounded-lg bg-blue-100 border border-black text-blue-700 shrink-0 font-black text-xs">📐</span>
             <div class="space-y-0.5">
-              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Toán 10: Bất Phương Trình & Miền Nghiệm Oxy</h4>
-              <p class="text-[11px] text-slate-500 font-medium leading-tight">Mô phỏng mặt phẳng tọa độ Oxy, đường thẳng bờ và bài toán kinh tế.</p>
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Toán 9: Tỉ Số Lượng Giác & Tam Giác Vuông</h4>
+              <p class="text-[11px] text-slate-500 font-medium leading-tight">Sơ đồ tam giác vuông vector SVG, công thức sin/cos/tan/cot và mẹo nhớ.</p>
             </div>
           </button>
 
           <!-- Quick 3 -->
+          <button onclick="quickStartTopic('Toán 10: Bất Phương Trình Bậc Nhất Hai Ẩn và Biểu Diễn Miền Nghiệm Oxy')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
+            <span class="p-2 rounded-lg bg-emerald-100 border border-black text-emerald-700 shrink-0 font-black text-xs">📊</span>
+            <div class="space-y-0.5">
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Toán 10: Bất Phương Trình & Miền Nghiệm</h4>
+              <p class="text-[11px] text-slate-500 font-medium leading-tight">Mô phỏng mặt phẳng tọa độ Oxy, đường thẳng bờ và bài toán kinh tế.</p>
+            </div>
+          </button>
+
+          <!-- Quick 4 -->
           <button onclick="quickStartTopic('Vật Lí 10: Ba Định Luật Newton Về Chuyển Động')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
             <span class="p-2 rounded-lg bg-amber-100 border border-black text-amber-700 shrink-0 font-black text-xs">⚛️</span>
             <div class="space-y-0.5">
               <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Vật Lí 10: Ba Định Luật Newton</h4>
               <p class="text-[11px] text-slate-500 font-medium leading-tight">Quán tính, định luật II F=ma và phản lực định luật III trong đời sống.</p>
-            </div>
-          </button>
-
-          <!-- Quick 4 -->
-          <button onclick="quickStartTopic('Tin Học 11: Trí Tuệ Nhân Tạo (AI) Và Ứng Dụng Trong Cuộc Sống')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
-            <span class="p-2 rounded-lg bg-purple-100 border border-black text-purple-700 shrink-0 font-black text-xs">🤖</span>
-            <div class="space-y-0.5">
-              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Tin Học: Trí Tuệ Nhân Tạo & Tương Lai</h4>
-              <p class="text-[11px] text-slate-500 font-medium leading-tight">Machine Learning, mạng nơ-ron, đạo đức AI và bài toán thực tế.</p>
             </div>
           </button>
         </div>
@@ -323,14 +302,14 @@
           <h2 class="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2">
             <i data-lucide="sparkles" class="w-5 h-5 text-blue-600"></i> AI Slide Studio
           </h2>
-          <p class="text-xs text-slate-500 font-medium">Trò chuyện, tải tài liệu & tinh chỉnh khung dàn ý trước khi sinh slide</p>
+          <p class="text-xs text-slate-500 font-medium">Trò chuyện, tải giáo án & duyệt khung dàn ý trước khi sinh slide</p>
         </div>
-        <button onclick="resetConversation()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-700 text-xs font-bold" title="Tạo mới hội thoại">
+        <button onclick="resetConversation()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-700 text-xs font-bold" title="Làm mới cuộc trò chuyện">
           <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Làm mới
         </button>
       </div>
 
-      <!-- Top Action: Duyệt Khung & Tạo Slide Thật (Hiển thị khi đã có dàn ý) -->
+      <!-- Top Action: Duyệt Khung & Tạo Slide Thật -->
       <div id="outline-actions-bar" class="hidden">
         <button id="btn-approve-and-generate" onclick="startBackgroundJob()" class="w-full neo-btn py-3.5 bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-base font-black flex items-center justify-center gap-2">
           <i data-lucide="play" class="w-5 h-5 fill-white"></i> Duyệt Khung & Tạo Slide Thật (Chạy Ngầm SV)
@@ -338,25 +317,25 @@
       </div>
 
       <!-- Chat Messages Container -->
-      <div id="chat-messages" class="space-y-3.5 min-h-[180px]">
+      <div id="chat-messages" class="space-y-3.5 min-h-[160px]">
         <!-- Welcome Message -->
         <div class="chat-bubble-ai p-4 sm:p-5 space-y-2 max-w-[92%]">
           <div class="flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-blue-600 text-white text-xs font-black flex items-center justify-center">AI</span>
             <span class="text-xs font-black text-slate-900">PPT Master Assistant</span>
-            <span class="text-[10px] text-slate-400 font-bold ml-auto">Vừa xong</span>
+            <span class="text-[10px] text-slate-400 font-bold ml-auto">Sẵn sàng</span>
           </div>
           <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
-            Xin chào thầy/cô! Em là trợ lý thiết kế slide sư phạm. Thầy/cô hãy nhập chủ đề bài giảng hoặc bấm nút <strong class="text-blue-600">[🖼️ Ảnh]</strong>, <strong class="text-blue-600">[📎 Tệp]</strong> để tải giáo án lên. Em sẽ phân tích và lập **khung dàn ý slide** trực quan ngay lập tức ạ!
+            Xin chào thầy/cô! Hãy nhập chủ đề bài giảng hoặc bấm nút <strong class="text-blue-600">[🖼️ Ảnh]</strong>, <strong class="text-blue-600">[📎 Tệp]</strong> để tải giáo án lên. Em sẽ phân tích và lập **khung dàn ý slide** chuẩn Gamma ngay ạ!
           </p>
         </div>
       </div>
 
-      <!-- Interactive Outline Inspector (Nếu đã sinh dàn ý) -->
+      <!-- Interactive Outline Inspector -->
       <div id="outline-inspector-card" class="hidden neo-card p-4 sm:p-6 bg-white space-y-4">
         <div class="flex items-center justify-between pb-3 border-b-2 border-black">
           <div>
-            <span class="px-2.5 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-black uppercase">Khung Dàn Ý Tương Tác</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-black uppercase">Khung Dàn Ý Sư Phạm</span>
             <h3 id="outline-deck-title" contenteditable="true" class="text-base sm:text-lg font-black text-slate-900 mt-1">Tiêu Đề Bài Giảng</h3>
           </div>
           <span id="outline-slide-count-badge" class="px-2.5 py-1 rounded-lg bg-blue-100 border border-black text-blue-900 text-xs font-black">
@@ -368,7 +347,7 @@
           💡 Thầy/cô có thể bấm chuột trực tiếp vào bất kỳ dòng nào bên dưới để sửa chữ, hoặc chat với AI để điều chỉnh lại toàn bộ!
         </p>
 
-        <!-- Slide List (Fixed Mobile Spacing & Layout) -->
+        <!-- Slide List (Fixed Mobile Spacing) -->
         <div id="outline-slides-list" class="space-y-3">
           <!-- Dynamic Slide Cards Injected Here -->
         </div>
@@ -377,21 +356,19 @@
       <!-- File Attachment Pills -->
       <div id="attachments-preview-bar" class="hidden flex flex-wrap gap-2 pt-1"></div>
 
-      <!-- Chat Input Box (Neo-brutalist Bo Tròn Viền Đen) -->
+      <!-- Chat Input Box -->
       <div class="neo-card p-2 sm:p-3 bg-white space-y-2">
-        <textarea id="chat-input" rows="2" placeholder="Nhập yêu cầu, chỉnh sửa slide hoặc dán nội dung giáo án tại đây..." class="w-full neo-input p-3 text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 resize-none bg-slate-50"></textarea>
+        <textarea id="chat-input" rows="2" placeholder="Nhập yêu cầu bài giảng hoặc dán nội dung giáo án tại đây..." class="w-full neo-input p-3 text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 resize-none bg-slate-50"></textarea>
 
         <div class="flex items-center justify-between gap-2 pt-1">
           <!-- Upload Buttons -->
           <div class="flex items-center gap-1.5 sm:gap-2">
-            <!-- Upload Images -->
             <label class="neo-btn px-2.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold cursor-pointer">
               <i data-lucide="image" class="w-4 h-4 text-blue-600"></i>
               <span class="hidden sm:inline">Ảnh</span>
               <input type="file" id="input-upload-image" accept="image/*" multiple class="hidden" onchange="handleFileUpload(event, 'image')">
             </label>
 
-            <!-- Upload Docs -->
             <label class="neo-btn px-2.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold cursor-pointer">
               <i data-lucide="paperclip" class="w-4 h-4 text-emerald-600"></i>
               <span class="hidden sm:inline">Tệp</span>
@@ -414,20 +391,18 @@
     <section id="view-job-status" class="hidden space-y-5">
       <div class="neo-card p-5 sm:p-8 bg-white space-y-6 text-center">
         
-        <!-- Top Status Pill -->
+        <!-- Status Pill -->
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 border-2 border-black shadow-[2px_2px_0px_#000]">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping"></span>
           <span class="text-xs font-black text-emerald-950 uppercase tracking-wide">Tiến Trình Chạy Ngầm Đang Hoạt Động</span>
         </div>
 
-        <!-- Centerpiece High-Tech Visual Graphic -->
-        <div class="relative w-40 h-28 sm:w-52 sm:h-36 mx-auto bg-slate-900 rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] overflow-hidden flex flex-col justify-between p-3 text-left">
-          <!-- Scanning Laser Line -->
+        <!-- Animated Centerpiece Graphic -->
+        <div class="relative w-44 h-28 sm:w-56 sm:h-36 mx-auto bg-slate-900 rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] overflow-hidden flex flex-col justify-between p-3 text-left">
           <div class="absolute left-0 right-0 h-0.5 bg-blue-400 shadow-[0_0_8px_#38BDF8] animate-laser pointer-events-none"></div>
 
-          <!-- Slide Mockup Header -->
           <div class="flex items-center justify-between">
-            <span class="w-10 h-2 rounded bg-blue-500/80"></span>
+            <span class="w-12 h-2 rounded bg-blue-500/80"></span>
             <div class="flex gap-1">
               <span class="w-2 h-2 rounded-full bg-red-400"></span>
               <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
@@ -435,7 +410,6 @@
             </div>
           </div>
 
-          <!-- Slide Mockup Bento Grid Simulation -->
           <div class="grid grid-cols-2 gap-1.5 my-auto">
             <div class="h-6 rounded bg-blue-900/60 border border-blue-500/40 p-1 flex items-center">
               <span class="w-6 h-1.5 rounded bg-blue-300"></span>
@@ -451,13 +425,12 @@
             </div>
           </div>
 
-          <!-- Slide Mockup Footer -->
-          <div class="w-16 h-1.5 rounded bg-slate-600"></div>
+          <div class="w-20 h-1.5 rounded bg-slate-600"></div>
         </div>
 
-        <!-- Main Title & Current Subtext -->
+        <!-- Main Title & Stage Subtext -->
         <div class="space-y-1.5">
-          <h2 class="text-xl sm:text-2xl font-black text-slate-950">Máy Chủ Đang Xây Dựng Bộ Slide Hoàn Chỉnh</h2>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-950">Máy Chủ Đang Xây Dựng Bộ Slide Chuẩn Gamma</h2>
           <p id="job-stage-text" class="text-xs sm:text-sm font-semibold text-blue-600">Bóc tách mục tiêu kiến thức, năng lực & thiết kế bố cục...</p>
         </div>
 
@@ -481,17 +454,17 @@
           </div>
 
           <div id="pipe-step-2" class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-black/10 text-xs font-bold text-slate-500">
-            <span class="flex items-center gap-2">📐 2. Bố cục Bento & Dựng Hình Đồ Họa Vector</span>
+            <span class="flex items-center gap-2">📐 2. Bố cục 16:9, Biểu đồ Cột SVG & Sơ đồ</span>
             <span class="step-badge text-[10px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-extrabold">Chờ</span>
           </div>
 
           <div id="pipe-step-3" class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-black/10 text-xs font-bold text-slate-500">
-            <span class="flex items-center gap-2">🎨 3. Phối Màu Palette, Gradients & Typography</span>
+            <span class="flex items-center gap-2">🎨 3. Phối Màu Palette, Thẻ Số Liệu % Lớn</span>
             <span class="step-badge text-[10px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-extrabold">Chờ</span>
           </div>
 
           <div id="pipe-step-4" class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-black/10 text-xs font-bold text-slate-500">
-            <span class="flex items-center gap-2">🖼️ 4. Sơ đồ Tam giác/Đồ thị & Hình Ảnh Trực quan</span>
+            <span class="flex items-center gap-2">🖼️ 4. Tích hợp Lời Giảng & Thông Điệp</span>
             <span class="step-badge text-[10px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-extrabold">Chờ</span>
           </div>
 
@@ -501,7 +474,7 @@
           </div>
         </div>
 
-        <!-- Tab Switch Reassurance Card -->
+        <!-- Reassurance Card -->
         <div class="neo-card p-4 bg-blue-50/80 border-2 border-black text-left flex items-start gap-3">
           <div class="p-2 rounded-xl bg-blue-600 text-white shrink-0 mt-0.5">
             <i data-lucide="shield-check" class="w-5 h-5"></i>
@@ -514,7 +487,7 @@
           </div>
         </div>
 
-        <!-- Success Action (Hidden until 100%) -->
+        <!-- Completed Action -->
         <div id="job-completed-action-bar" class="hidden pt-2">
           <button onclick="openCanvasFromJobResult()" class="w-full neo-btn py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-base font-black shadow-[3px_3px_0px_#000]">
             <i data-lucide="sparkles" class="w-5 h-5"></i> Mở Slide Canvas Ngay Bây Giờ
@@ -525,86 +498,92 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- VIEW 4: SLIDE CANVAS STUDIO (MỞ TỪ QUẢN LÝ) -->
+    <!-- VIEW 4: SLIDE CANVAS STUDIO (16:9 CHUẨN GAMMA) -->
     <!-- ========================================== -->
-    <section id="view-canvas" class="hidden space-y-4">
+    <section id="view-canvas" class="hidden space-y-3.5">
       
       <!-- Top Studio Toolbar -->
-      <div class="neo-card p-3 sm:p-4 bg-white flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+      <div class="neo-card p-2.5 sm:p-3.5 bg-white flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
           <button onclick="closeCanvasStudio()" class="neo-btn px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black">
             <i data-lucide="arrow-left" class="w-4 h-4"></i> Quay Lại
           </button>
           <div class="truncate">
             <h3 id="canvas-deck-title" contenteditable="true" class="text-xs sm:text-sm font-black text-slate-900 truncate">Tiêu Đề Slide Deck</h3>
-            <span id="canvas-slide-counter-badge" class="text-[11px] font-bold text-blue-600">Trang 1 / 1</span>
+            <span id="canvas-slide-counter-badge" class="text-[10px] sm:text-[11px] font-bold text-blue-600">Trang 1 / 1</span>
           </div>
         </div>
 
         <!-- Action Controls -->
-        <div class="flex flex-wrap items-center gap-1.5">
+        <div class="flex items-center gap-1.5">
           <!-- Background Picker -->
-          <button onclick="cycleBackground()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Đổi màu nền slide">
+          <button onclick="cycleBackground()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Đổi màu nền">
             <i data-lucide="palette" class="w-3.5 h-3.5 text-blue-600"></i> Nền
           </button>
 
           <!-- Font Switcher -->
-          <button onclick="cycleFontFamily()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Đổi font chữ">
+          <button onclick="cycleFontFamily()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Đổi font">
             <i data-lucide="type" class="w-3.5 h-3.5 text-purple-600"></i> <span id="current-font-name">Jakarta</span>
           </button>
 
-          <!-- Add Element -->
-          <button onclick="addSlideElement()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Thêm thẻ nội dung">
-            <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Thêm Mục
-          </button>
-
-          <!-- Presentation Mode -->
+          <!-- Fullscreen Presentation -->
           <button onclick="enterFullscreenPresentation()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Trình chiếu toàn màn hình">
             <i data-lucide="maximize" class="w-3.5 h-3.5 text-indigo-600"></i> Chiếu
           </button>
 
-          <!-- Download PPTX -->
+          <!-- Download PPTX Native -->
           <button onclick="exportCurrentDeckPptx()" class="neo-btn px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black">
             <i data-lucide="download" class="w-3.5 h-3.5"></i> Tải .PPTX
           </button>
         </div>
       </div>
 
-      <!-- MAIN SLIDE CANVAS (16:9 RATIO) -->
-      <div class="neo-card p-3 sm:p-5 bg-white space-y-3">
+      <!-- MAIN SLIDE CANVAS (STRICT 16:9 RATIO - NO OVERFLOW) -->
+      <div class="neo-card p-2 sm:p-4 bg-slate-900 border-2 border-black flex items-center justify-center">
         
-        <!-- The Actual Presentation Slide -->
-        <div id="slide-stage" class="w-full aspect-[16/9] min-h-[340px] sm:min-h-[480px] rounded-2xl border-2 border-black p-4 sm:p-7 relative overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-[inset_0_0_12px_rgba(0,0,0,0.03)] font-jakarta">
-          <!-- Injected Dynamically by renderCurrentSlide() -->
+        <!-- The 16:9 Presentation Slide Stage -->
+        <div id="slide-stage" class="w-full aspect-[16/9] min-h-[300px] max-h-[540px] rounded-xl sm:rounded-2xl border-2 border-black p-3.5 sm:p-6 relative overflow-hidden flex flex-col justify-between shadow-2xl transition-all duration-300 font-jakarta text-slate-900 bg-white">
+          <!-- Dynamically Injected by renderCurrentSlide() -->
         </div>
 
-        <!-- Speaker Notes Box (Editable) -->
-        <div class="p-3 sm:p-4 rounded-xl bg-slate-50 border-2 border-black/15 text-xs text-slate-700 font-medium space-y-1">
-          <div class="flex items-center gap-1.5 text-blue-600 font-black">
-            <i data-lucide="mic" class="w-3.5 h-3.5"></i>
-            <span>Lời Giảng Giáo Viên (Ghi chú diễn giả):</span>
-          </div>
-          <div id="slide-speaker-notes" contenteditable="true" class="leading-relaxed text-slate-800">
-            Chào các em học sinh. Hôm nay chúng ta sẽ bước vào chuyên đề mới...
-          </div>
-        </div>
+      </div>
 
-        <!-- Slide Navigation Controls -->
-        <div class="flex items-center justify-between gap-2 pt-2 border-t border-black/10">
-          <button onclick="prevSlide()" class="neo-btn px-4 py-2 bg-white text-slate-900 text-xs font-black">
+      <!-- Slide Navigation Bar & Speaker Notes Toggle -->
+      <div class="neo-card p-3 bg-white flex flex-col sm:flex-row items-center justify-between gap-2.5">
+        
+        <!-- Pagination Controls -->
+        <div class="flex items-center gap-2">
+          <button onclick="prevSlide()" class="neo-btn px-3 py-1.5 bg-white text-slate-900 text-xs font-black">
             <i data-lucide="chevron-left" class="w-4 h-4"></i> Trước
           </button>
 
-          <div id="slide-dots-pagination" class="flex flex-wrap items-center justify-center gap-1 max-w-[240px] sm:max-w-md overflow-x-auto py-1">
-            <!-- Injected dots -->
+          <div id="slide-dots-pagination" class="flex items-center gap-1 max-w-[200px] sm:max-w-xs overflow-x-auto py-1">
+            <!-- Dynamic page dots -->
           </div>
 
-          <button onclick="nextSlide()" class="neo-btn px-4 py-2 bg-blue-600 text-white text-xs font-black">
+          <button onclick="nextSlide()" class="neo-btn px-3 py-1.5 bg-blue-600 text-white text-xs font-black">
             Tiếp <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </button>
         </div>
 
+        <!-- Speaker Notes Button -->
+        <button onclick="toggleSpeakerNotes()" class="neo-btn px-3 py-1.5 bg-slate-100 text-slate-800 text-xs font-bold">
+          <i data-lucide="mic" class="w-3.5 h-3.5 text-blue-600"></i> Lời Giảng GV (<span id="notes-toggle-status">Ẩn/Hiện</span>)
+        </button>
+
       </div>
+
+      <!-- Collapsible Speaker Notes Container -->
+      <div id="speaker-notes-container" class="hidden neo-card p-3 sm:p-4 bg-white border-2 border-black space-y-1">
+        <div class="flex items-center gap-1.5 text-blue-600 font-black text-xs">
+          <i data-lucide="mic" class="w-3.5 h-3.5"></i>
+          <span>Lời Giảng Giáo Viên (Ghi chú diễn giả - Bấm để chỉnh sửa):</span>
+        </div>
+        <div id="slide-speaker-notes" contenteditable="true" class="text-xs text-slate-700 leading-relaxed font-medium">
+          Chào các em học sinh. Hôm nay chúng ta sẽ bước vào chuyên đề mới...
+        </div>
+      </div>
+
     </section>
 
     <!-- ========================================== -->
@@ -616,7 +595,7 @@
           <h2 class="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2">
             <i data-lucide="folder-kanban" class="w-5 h-5 text-blue-600"></i> Thư Viện Slide Đã Tạo
           </h2>
-          <p class="text-xs text-slate-500 font-medium">Bấm vào bất kỳ bài giảng nào để mở Canvas chỉnh sửa hoặc tải về</p>
+          <p class="text-xs text-slate-500 font-medium">Bấm "Mở Canvas" để trình chiếu hoặc chỉnh sửa trực tiếp</p>
         </div>
         <button onclick="switchTab('tab-chat')" class="neo-btn px-3 py-1.5 bg-blue-600 text-white text-xs font-black">
           <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tạo Thêm
@@ -632,7 +611,7 @@
   </main>
 
   <!-- ========================================== -->
-  <!-- FLOATING BOTTOM DOCK (CHỈ 3 TAB THEO YÊU CẦU) -->
+  <!-- FLOATING BOTTOM DOCK (3 TABS CHUẨN) -->
   <!-- ========================================== -->
   <nav class="dock-container">
     <div class="dock-bar">
@@ -642,7 +621,7 @@
         <span>Trang Chủ</span>
       </button>
 
-      <!-- Tab 2: Chat Studio -->
+      <!-- Tab 2: Chat Tạo -->
       <button id="tab-chat" onclick="switchTab('tab-chat')" class="dock-tab">
         <i data-lucide="messages-square" class="w-4 h-4"></i>
         <span>Chat Tạo</span>
@@ -682,11 +661,11 @@
 
     // Background themes
     const BACKGROUND_PRESETS = [
-      { name: 'Trắng', bg: '#FFFFFF', textDark: true },
-      { name: 'Xanh Nhạt', bg: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)', textDark: true },
+      { name: 'Trắng Tinh Khiết', bg: '#FFFFFF', textDark: true },
+      { name: 'Xanh Nhạt Hoàng Gia', bg: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)', textDark: true },
       { name: 'Slate Tối Giản', bg: '#F8FAFC', textDark: true },
-      { name: 'Kem Ấm', bg: '#FFFBEB', textDark: true },
-      { name: 'Xanh Ngọc', bg: '#ECFDF5', textDark: true },
+      { name: 'Kem Ấm Áp', bg: '#FFFBEB', textDark: true },
+      { name: 'Xanh Ngọc Nhẹ', bg: '#ECFDF5', textDark: true },
       { name: 'Dark Keynote', bg: '#0F172A', textDark: false }
     ];
     let currentBgIdx = 0;
@@ -738,7 +717,7 @@
     function quickStartTopic(topicText) {
       switchTab('tab-chat');
       const inputEl = document.getElementById('chat-input');
-      inputEl.value = `Hãy lập dàn ý bài giảng chi tiết cho chủ đề: ${topicText}`;
+      inputEl.value = `Hãy lập dàn ý bài giảng chuyên nghiệp cho chủ đề: ${topicText}`;
       sendChatMessage();
     }
 
@@ -760,7 +739,7 @@
         if (data.success && data.files) {
           uploadedAttachments.push(...data.files);
           renderAttachmentPills();
-          appendChatAiMessage(`Đã tải lên thành công ${data.files.length} tệp: ${data.files.map(f => f.originalName).join(', ')}. Thầy/cô có thể bấm "Gửi Cho AI" để phân tích ngay ạ!`);
+          appendChatAiMessage(`Đã tải lên ${data.files.length} tệp: ${data.files.map(f => f.originalName).join(', ')}. Thầy/cô hãy bấm "Gửi Cho AI" để phân tích ngay ạ!`);
         }
       } catch (err) {
         alert('Lỗi tải tệp: ' + err.message);
@@ -795,11 +774,9 @@
       const text = inputEl.value.trim();
       if (!text && uploadedAttachments.length === 0) return;
 
-      // Append User message
       appendChatUserMessage(text || 'Phân tích tệp đính kèm');
       inputEl.value = '';
 
-      // Prepare request
       const payload = {
         message: text,
         history: chatHistory,
@@ -807,7 +784,6 @@
         attachments: uploadedAttachments
       };
 
-      // Show typing indicator
       const typingEl = appendTypingIndicator();
 
       try {
@@ -899,7 +875,7 @@
     }
 
     // ==========================================
-    // RENDER OUTLINE INSPECTOR (FIXED MOBILE TEXT)
+    // RENDER OUTLINE INSPECTOR
     // ==========================================
     function renderOutlineInspector(outline) {
       const inspector = document.getElementById('outline-inspector-card');
@@ -914,7 +890,6 @@
       listEl.innerHTML = (outline.slides || []).map((s, idx) => `
         <div class="neo-card p-3.5 sm:p-4 bg-white space-y-2 border-2 border-black">
           
-          <!-- Slide Header: Horizontal Pill + Title + Category (No ugly wrapping) -->
           <div class="flex items-center justify-between gap-2">
             <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-900 text-xs font-black border border-black shrink-0 whitespace-nowrap">
               Slide ${idx + 1}
@@ -927,7 +902,6 @@
             </span>
           </div>
 
-          <!-- Bullets list with comfortable line height -->
           <ul class="space-y-1.5 pl-2 text-xs sm:text-sm text-slate-700 font-medium">
             ${(s.bullets || []).map((b, bIdx) => `
               <li class="flex items-start gap-2">
@@ -937,7 +911,6 @@
             `).join('')}
           </ul>
 
-          <!-- Visual Idea: Fixed No-Wrap Label -->
           ${s.visualIdea ? `
             <div class="text-[11px] text-slate-600 font-medium flex items-start gap-1.5 pt-2 border-t border-black/10 leading-snug">
               <span class="text-blue-600 font-black shrink-0 whitespace-nowrap">💡 Đồ họa gợi ý:</span>
@@ -964,7 +937,6 @@
         });
         const data = await res.json();
         if (data.success && data.jobId) {
-          // Switch to ETA progress screen
           document.getElementById('view-chat').classList.add('hidden');
           const jobView = document.getElementById('view-job-status');
           jobView.classList.remove('hidden');
@@ -1004,7 +976,6 @@
     }
 
     function updateJobUI(job) {
-      // Progress Bar & Percentage
       const bar = document.getElementById('job-progress-bar');
       const percentText = document.getElementById('job-progress-percent');
       const stageText = document.getElementById('job-stage-text');
@@ -1015,7 +986,6 @@
       stageText.innerText = job.stageText || 'Đang xử lý...';
       etaText.innerText = job.etaSeconds > 0 ? `Ước tính: ~${job.etaSeconds} giây` : 'Hoàn tất!';
 
-      // Update 5 Pipeline steps
       const currentIdx = job.stageIndex || 1;
       for (let i = 1; i <= 5; i++) {
         const stepEl = document.getElementById('pipe-step-' + i);
@@ -1051,13 +1021,12 @@
     }
 
     // ==========================================
-    // SLIDE CANVAS STUDIO (LOGIC THỰC THỤ GIỐNG REPO)
+    // SLIDE CANVAS STUDIO (STRICT 16:9 WIDESCREEN)
     // ==========================================
     function openDeckInCanvas(deck) {
       currentDeck = deck;
       currentSlideIdx = 0;
 
-      // Hide other views and show Canvas view
       const views = ['view-home', 'view-chat', 'view-job-status', 'view-library'];
       views.forEach(v => {
         const el = document.getElementById(v);
@@ -1079,219 +1048,356 @@
       switchTab('tab-library');
     }
 
+    function toggleSpeakerNotes() {
+      const container = document.getElementById('speaker-notes-container');
+      const statusText = document.getElementById('notes-toggle-status');
+      if (container.classList.contains('hidden')) {
+        container.classList.remove('hidden');
+        statusText.innerText = 'Hiện';
+      } else {
+        container.classList.add('hidden');
+        statusText.innerText = 'Ẩn';
+      }
+    }
+
+    // RENDER 16:9 SLIDE CHUẨN GAMMA
     function renderCurrentSlide() {
       if (!currentDeck || !currentDeck.slides || currentDeck.slides.length === 0) return;
       const slide = currentDeck.slides[currentSlideIdx];
       const stage = document.getElementById('slide-stage');
 
-      // Update counter
       document.getElementById('canvas-slide-counter-badge').innerText = `Trang ${currentSlideIdx + 1} / ${currentDeck.slides.length}`;
       document.getElementById('slide-speaker-notes').innerText = slide.speakerNotes || 'Lời giảng gợi ý cho trang này...';
 
-      // Set background
       const currentBg = BACKGROUND_PRESETS[currentBgIdx];
       stage.style.background = currentBg.bg;
-      stage.className = `w-full aspect-[16/9] min-h-[340px] sm:min-h-[480px] rounded-2xl border-2 border-black p-4 sm:p-7 relative overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-[inset_0_0_12px_rgba(0,0,0,0.03)] ${FONT_PRESETS[currentFontIdx].css} ${currentBg.textDark ? 'text-slate-900' : 'text-white'}`;
+      stage.className = `w-full aspect-[16/9] min-h-[300px] max-h-[540px] rounded-xl sm:rounded-2xl border-2 border-black p-3.5 sm:p-6 relative overflow-hidden flex flex-col justify-between shadow-2xl transition-all duration-300 ${FONT_PRESETS[currentFontIdx].css} ${currentBg.textDark ? 'text-slate-900' : 'text-white'}`;
 
-      // Build Rich Slide HTML based on Layout & Content
       let slideHtml = '';
 
-      if (slide.layout === 'title' || currentSlideIdx === 0) {
+      if (slide.layout === 'cover' || currentSlideIdx === 0) {
         // ==========================================
-        // SLIDE 1: COVER TITLE WITH REAL VISUAL BANNER
+        // LAYOUT 1: COVER SLIDE
         // ==========================================
         slideHtml = `
-          <!-- Title Slide Header -->
           <div class="flex items-center justify-between">
-            <span class="px-3 py-1 rounded-full bg-blue-600 text-white text-xs font-black border border-black uppercase tracking-wider">
-              ${escapeHtml(slide.badge || 'BÀI GIẢNG ĐIỆN TỬ')}
+            <span class="px-2.5 py-0.5 rounded-full bg-blue-600 text-white text-[10px] sm:text-xs font-black border border-black uppercase tracking-wider">
+              ${escapeHtml(slide.badge || 'CHUYÊN ĐỀ HỌC ĐƯỜNG')}
             </span>
-            <span class="text-xs font-extrabold text-blue-600 uppercase">
-              ${escapeHtml(currentDeck.meta.subject || 'Toán học')} • ${escapeHtml(currentDeck.meta.grade || 'Lớp 10')}
+            <span class="text-[11px] sm:text-xs font-extrabold text-blue-600 uppercase">
+              ${escapeHtml(currentDeck.meta.subject || 'Giáo Dục')} • ${escapeHtml(currentDeck.meta.grade || 'Lớp 10')}
             </span>
           </div>
 
-          <!-- Title & Subtitle -->
-          <div class="space-y-2 my-auto">
-            <h1 contenteditable="true" class="text-xl sm:text-3xl md:text-4xl font-black tracking-tight leading-snug sm:leading-tight">
+          <div class="space-y-1 sm:space-y-2 my-auto">
+            <h1 contenteditable="true" class="text-lg sm:text-2xl md:text-3xl font-black tracking-tight leading-snug">
               ${escapeHtml(slide.title)}
             </h1>
-            <p contenteditable="true" class="text-xs sm:text-base font-semibold text-blue-600 max-w-xl leading-relaxed">
-              ${escapeHtml(slide.subtitle || 'Khám phá kiến thức cốt lõi, công thức và ứng dụng thực tiễn.')}
+            <p contenteditable="true" class="text-xs sm:text-sm font-semibold text-blue-600 max-w-xl leading-relaxed">
+              ${escapeHtml(slide.subtitle || 'Khám phá giải pháp, bóc tách thực trạng và kiến tạo tương lai.')}
             </p>
           </div>
 
-          <!-- Cover Footer Profile Card -->
-          <div class="flex items-center justify-between p-3 rounded-xl bg-slate-100/90 border-2 border-black">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-xs border border-black">
+          <div class="flex items-center justify-between p-2 sm:p-3 rounded-xl bg-slate-100/90 border-2 border-black">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-[10px] sm:text-xs border border-black">
                 GV
               </div>
               <div>
                 <h4 contenteditable="true" class="text-xs sm:text-sm font-black text-slate-900">
-                  ${escapeHtml(currentDeck.meta.teacher || 'Thầy/Cô Giảng Viên')}
+                  ${escapeHtml(currentDeck.meta.teacher || 'Thầy Phan Trọng Khang')}
                 </h4>
-                <p class="text-[10px] text-slate-500 font-bold">Giáo án điện tử chuẩn CV 5512</p>
+                <p class="text-[9px] sm:text-[10px] text-slate-500 font-bold">Giáo án điện tử chuẩn CV 5512</p>
               </div>
             </div>
-            <span class="text-[10px] font-black uppercase text-slate-400">Trình Chiếu 16:9</span>
+            <span class="text-[9px] sm:text-[10px] font-black uppercase text-slate-400">Trình Chiếu 16:9</span>
+          </div>
+        `;
+
+      } else if (slide.layout === 'chart_stats') {
+        // ==========================================
+        // LAYOUT 2: CHART & BIG STATS (CHUẨN GAMMA)
+        // ==========================================
+        slideHtml = `
+          <div class="flex items-center justify-between pb-1.5 border-b border-black/10">
+            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[9px] sm:text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'SỐ LIỆU & KHẢO SÁT')}
+            </span>
+            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400">Phân Tích Dữ Liệu</span>
+          </div>
+
+          <h2 contenteditable="true" class="text-xs sm:text-lg font-black tracking-tight my-0.5 truncate">
+            ${escapeHtml(slide.title)}
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 my-auto items-center">
+            
+            <!-- Real Vector SVG Column Chart -->
+            <div class="p-2 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000] flex flex-col justify-between">
+              <span class="text-[10px] font-black text-slate-500 uppercase">Khảo sát học sinh (%)</span>
+              
+              <svg viewBox="0 0 200 100" class="w-full h-20 sm:h-28 my-1">
+                <!-- Grid Lines -->
+                <line x1="20" y1="20" x2="190" y2="20" stroke="#E2E8F0" stroke-dasharray="2" />
+                <line x1="20" y1="50" x2="190" y2="50" stroke="#E2E8F0" stroke-dasharray="2" />
+                <line x1="20" y1="80" x2="190" y2="80" stroke="#94A3B8" stroke-width="1.5" />
+
+                <!-- Bar 1: 87% -->
+                <rect x="35" y="24" width="28" height="56" fill="#2563EB" rx="3" stroke="#000" stroke-width="1.5" />
+                <text x="49" y="18" font-size="9" font-weight="900" fill="#2563EB" text-anchor="middle">87%</text>
+                <text x="49" y="92" font-size="7" font-weight="800" fill="#475569" text-anchor="middle">Lắng nghe</text>
+
+                <!-- Bar 2: 68% -->
+                <rect x="85" y="38" width="28" height="42" fill="#F59E0B" rx="3" stroke="#000" stroke-width="1.5" />
+                <text x="99" y="32" font-size="9" font-weight="900" fill="#D97706" text-anchor="middle">68%</text>
+                <text x="99" y="92" font-size="7" font-weight="800" fill="#475569" text-anchor="middle">Áp lực</text>
+
+                <!-- Bar 3: 74% -->
+                <rect x="135" y="34" width="28" height="46" fill="#10B981" rx="3" stroke="#000" stroke-width="1.5" />
+                <text x="149" y="28" font-size="9" font-weight="900" fill="#059669" text-anchor="middle">74%</text>
+                <text x="149" y="92" font-size="7" font-weight="800" fill="#475569" text-anchor="middle">Hỗ trợ</text>
+              </svg>
+            </div>
+
+            <!-- Big Stat Cards (Gamma Style) -->
+            <div class="space-y-1.5 sm:space-y-2">
+              <div class="p-2 sm:p-2.5 rounded-xl bg-blue-50/80 border-2 border-black flex items-center gap-2.5">
+                <span class="text-xl sm:text-2xl font-black text-blue-600 shrink-0">87%</span>
+                <div>
+                  <h4 contenteditable="true" class="text-[11px] sm:text-xs font-black text-slate-900">Nhu Cầu Được Lắng Nghe</h4>
+                  <p contenteditable="true" class="text-[9px] sm:text-[10px] text-slate-600 font-medium leading-tight">Học sinh mong muốn có không gian an toàn chia sẻ cảm xúc.</p>
+                </div>
+              </div>
+
+              <div class="p-2 sm:p-2.5 rounded-xl bg-emerald-50/80 border-2 border-black flex items-center gap-2.5">
+                <span class="text-xl sm:text-2xl font-black text-emerald-600 shrink-0">3.5x</span>
+                <div>
+                  <h4 contenteditable="true" class="text-[11px] sm:text-xs font-black text-slate-900">Gắn Kết Học Đường</h4>
+                  <p contenteditable="true" class="text-[9px] sm:text-[10px] text-slate-600 font-medium leading-tight">Sự thấu cảm giúp gia tăng 3.5 lần khả năng hòa nhập lớp học.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        `;
+
+      } else if (slide.layout === 'split_insight') {
+        // ==========================================
+        // LAYOUT 3: SPLIT 2-COLUMN INSIGHT
+        // ==========================================
+        const left = slide.leftCard || { badge: 'GÓC NHÌN', title: 'Thực Trạng Học Đường', desc: 'Những tổn thương vô hình kéo dài...' };
+        const rights = slide.rightCards || [];
+        slideHtml = `
+          <div class="flex items-center justify-between pb-1.5 border-b border-black/10">
+            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[9px] sm:text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'BỐI CẢNH & THỰC TRẠNG')}
+            </span>
+            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400">Góc Nhìn Chuyên Sâu</span>
+          </div>
+
+          <h2 contenteditable="true" class="text-xs sm:text-lg font-black tracking-tight my-0.5 truncate">
+            ${escapeHtml(slide.title)}
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 my-auto items-stretch">
+            
+            <!-- Left Insight Card -->
+            <div class="p-2.5 sm:p-3 rounded-xl bg-blue-600 text-white border-2 border-black shadow-[2px_2px_0px_#000] flex flex-col justify-between">
+              <span class="px-2 py-0.5 rounded bg-white/20 text-yellow-300 text-[9px] font-black w-fit uppercase">
+                ${escapeHtml(left.badge || 'ĐIỀU CẦN LƯU Ý')}
+              </span>
+              <div class="my-auto space-y-1">
+                <h3 contenteditable="true" class="text-xs sm:text-sm font-black leading-snug">
+                  ${escapeHtml(left.title)}
+                </h3>
+                <p contenteditable="true" class="text-[10px] sm:text-xs text-blue-100 font-medium leading-relaxed">
+                  ${escapeHtml(left.desc)}
+                </p>
+              </div>
+              <span class="text-[9px] text-blue-200 font-bold uppercase">✦ Trọng tâm sư phạm</span>
+            </div>
+
+            <!-- Right Structured Cards -->
+            <div class="space-y-1.5 sm:space-y-2 flex flex-col justify-around">
+              ${rights.map((r, rIdx) => `
+                <div class="p-2 sm:p-2.5 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000] space-y-0.5">
+                  <span class="text-[9px] font-black text-blue-600 uppercase">${escapeHtml(r.badge || 'BIỂU HIỆN ' + (rIdx + 1))}</span>
+                  <h4 contenteditable="true" class="text-xs sm:text-xs font-black text-slate-900 leading-snug">
+                    ${escapeHtml(r.title)}
+                  </h4>
+                  <p contenteditable="true" class="text-[9px] sm:text-[10px] text-slate-600 font-medium leading-tight">
+                    ${escapeHtml(r.desc)}
+                  </p>
+                </div>
+              `).join('')}
+            </div>
+
+          </div>
+        `;
+
+      } else if (slide.layout === 'pillars_3') {
+        // ==========================================
+        // LAYOUT 4: 3 PILLARS / BENTO (3 CỘT SANG TRỌNG)
+        // ==========================================
+        const pillars = slide.pillars || [];
+        slideHtml = `
+          <div class="flex items-center justify-between pb-1.5 border-b border-black/10">
+            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[9px] sm:text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'GIẢI PHÁP TRỌNG TÂM')}
+            </span>
+            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400">Ba Trụ Cột Hành Động</span>
+          </div>
+
+          <h2 contenteditable="true" class="text-xs sm:text-lg font-black tracking-tight my-0.5 truncate">
+            ${escapeHtml(slide.title)}
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5 my-auto items-stretch">
+            ${pillars.map((p, pIdx) => `
+              <div class="p-2 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000] flex flex-col justify-between space-y-1">
+                <span class="px-2 py-0.5 rounded text-[8px] sm:text-[9px] font-black text-white w-fit uppercase" style="background-color: ${p.color || '#2563EB'}">
+                  ${escapeHtml(p.tag || 'TRỤ CỘT ' + (pIdx + 1))}
+                </span>
+                <div class="my-auto space-y-0.5">
+                  <h4 contenteditable="true" class="text-xs sm:text-sm font-black text-slate-900 leading-snug">
+                    ${escapeHtml(p.title)}
+                  </h4>
+                  <p contenteditable="true" class="text-[9px] sm:text-[10px] text-slate-600 font-medium leading-tight">
+                    ${escapeHtml(p.desc)}
+                  </p>
+                </div>
+                <div class="h-1 rounded-full w-full opacity-60" style="background-color: ${p.color || '#2563EB'}"></div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+
+      } else if (slide.layout === 'quote_manifesto') {
+        // ==========================================
+        // LAYOUT 5: BIG QUOTE / MANIFESTO (GAMMA STYLE)
+        // ==========================================
+        slideHtml = `
+          <div class="flex items-center justify-between pb-1.5 border-b border-black/10">
+            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[9px] sm:text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'THÔNG ĐIỆP CỐT LÕI')}
+            </span>
+            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400">Châm Ngôn Sư Phạm</span>
+          </div>
+
+          <div class="neo-card p-3 sm:p-5 bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 border-2 border-black my-auto space-y-2 text-center">
+            <span class="text-2xl sm:text-4xl text-blue-600 font-black leading-none block">“</span>
+            <p contenteditable="true" class="text-xs sm:text-base font-black text-slate-900 italic leading-relaxed max-w-xl mx-auto">
+              ${escapeHtml(slide.quote || 'Trường học hạnh phúc bắt đầu từ sự lắng nghe, tôn trọng và tình yêu thương chân thành.')}
+            </p>
+            <span contenteditable="true" class="text-[10px] sm:text-xs font-black text-blue-600 uppercase block tracking-wider">
+              — ${escapeHtml(slide.author || 'Hội Đồng Sư Phạm')}
+            </span>
+          </div>
+        `;
+
+      } else if (slide.layout === 'summary_cta') {
+        // ==========================================
+        // LAYOUT 6: SUMMARY & ACTION PLEDGE
+        // ==========================================
+        const takeaways = slide.takeaways || [
+          'Lắng nghe không phán xét bạn bè.',
+          'Dũng cảm lên tiếng trước bạo lực.',
+          'Chủ động chia sẻ với thầy cô.'
+        ];
+        slideHtml = `
+          <div class="flex items-center justify-between pb-1.5 border-b border-black/10">
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[9px] sm:text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'TỔNG KẾT & CAM KẾT')}
+            </span>
+            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400">Hành Động Hôm Nay</span>
+          </div>
+
+          <h2 contenteditable="true" class="text-xs sm:text-lg font-black tracking-tight my-0.5 truncate">
+            ${escapeHtml(slide.title)}
+          </h2>
+
+          <div class="space-y-1 sm:space-y-1.5 my-auto">
+            ${takeaways.map((t, tIdx) => `
+              <div class="p-2 sm:p-2.5 rounded-xl bg-white border-2 border-black flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-600 text-white font-black text-xs flex items-center justify-center shrink-0">✓</span>
+                <p contenteditable="true" class="text-[10px] sm:text-xs font-bold text-slate-800 leading-tight flex-1">
+                  ${escapeHtml(t)}
+                </p>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="p-2 rounded-xl bg-yellow-400 border-2 border-black text-center font-black text-[10px] sm:text-xs text-slate-950 uppercase tracking-wide">
+            ${escapeHtml(slide.actionBanner || 'CÙNG CHUNG TAY VÌ MÔI TRƯỜNG HỌC ĐƯỜNG AN TOÀN & YÊU THƯƠNG!')}
           </div>
         `;
 
       } else if (slide.diagram && slide.diagram.type === 'right-triangle') {
         // ==========================================
-        // SLIDE 2: CONCEPT WITH REAL SVG RIGHT TRIANGLE
+        // LAYOUT 7: MATH SVG RIGHT TRIANGLE
         // ==========================================
         slideHtml = `
-          <div class="flex items-center justify-between pb-2 border-b border-black/10">
-            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-black border border-black uppercase">
-              ${escapeHtml(slide.badge || 'KHÁI NIỆM TRỌNG TÂM')}
+          <div class="flex items-center justify-between pb-1.5 border-b border-black/10">
+            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[9px] sm:text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'HÌNH HỌC TRỰC QUAN')}
             </span>
-            <span class="text-[11px] font-bold text-slate-400">Hình Học Trực Quan</span>
+            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400">Sơ Đồ Tam Giác</span>
           </div>
 
-          <h2 contenteditable="true" class="text-base sm:text-2xl font-black tracking-tight my-1">
+          <h2 contenteditable="true" class="text-xs sm:text-lg font-black tracking-tight my-0.5 truncate">
             ${escapeHtml(slide.title)}
           </h2>
 
-          <!-- Split: Diagram on Left, Explanation Bento on Right -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-auto items-center">
-            
-            <!-- Real SVG Right Triangle Diagram -->
-            <div class="p-2 sm:p-3 rounded-xl bg-blue-50/60 border-2 border-black flex flex-col items-center justify-center relative">
-              <svg viewBox="0 0 240 160" class="w-full h-32 sm:h-44">
-                <!-- Triangle ABC: Right angled at B -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 my-auto items-center">
+            <div class="p-2 rounded-xl bg-blue-50/60 border-2 border-black flex flex-col items-center justify-center">
+              <svg viewBox="0 0 240 160" class="w-full h-24 sm:h-36">
                 <polygon points="30,130 190,130 190,30" fill="rgba(37, 99, 235, 0.08)" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" />
-                
-                <!-- Right angle marker at B (190, 130) -->
                 <polyline points="175,130 175,115 190,115" fill="none" stroke="#000000" stroke-width="2" />
                 <circle cx="182" cy="122" r="1.5" fill="#000000" />
-
-                <!-- Angle Alpha Arc at A (30, 130) -->
                 <path d="M 60,130 A 30,30 0 0,0 55,112" fill="none" stroke="#2563EB" stroke-width="2.5" />
                 <text x="68" y="124" font-size="12" font-weight="900" fill="#2563EB">α</text>
-
-                <!-- Vertex Labels -->
                 <text x="18" y="136" font-size="12" font-weight="900" fill="#000">A</text>
                 <text x="198" y="136" font-size="12" font-weight="900" fill="#000">B</text>
                 <text x="198" y="30" font-size="12" font-weight="900" fill="#000">C</text>
-
-                <!-- Side Labels with distinctive colors -->
-                <!-- Cạnh Kề (AB) -->
                 <text x="100" y="148" font-size="10" font-weight="900" fill="#16A34A">Cạnh Kề (AB)</text>
-                <!-- Cạnh Đối (BC) -->
                 <text x="198" y="85" font-size="10" font-weight="900" fill="#DC2626">Cạnh Đối (BC)</text>
-                <!-- Cạnh Huyền (AC) -->
                 <text x="90" y="70" font-size="10" font-weight="900" fill="#2563EB" transform="rotate(-32 100 75)">Cạnh Huyền (AC)</text>
               </svg>
-              <span class="text-[10px] font-black text-slate-500 uppercase mt-1">Sơ đồ: Tam Giác ABC (Vuông tại B)</span>
             </div>
 
-            <!-- Concept Cards -->
-            <div class="space-y-2">
-              <div class="p-2.5 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000]">
-                <span class="text-[10px] font-black text-blue-600 uppercase">Đặc điểm 1</span>
-                <h4 class="text-xs sm:text-sm font-black text-slate-900">Góc nhọn α tại đỉnh A</h4>
-                <p class="text-[11px] text-slate-600 font-medium">Cạnh đối diện góc α là cạnh BC; Cạnh kề góc α là cạnh AB.</p>
+            <div class="space-y-1 sm:space-y-1.5">
+              <div class="p-2 rounded-xl bg-white border-2 border-black">
+                <span class="text-[9px] font-black text-blue-600 uppercase">Đặc điểm 1</span>
+                <h4 class="text-xs font-black text-slate-900">Góc nhọn α tại đỉnh A</h4>
+                <p class="text-[9px] sm:text-[10px] text-slate-600 font-medium">Đối là BC, Kề là AB.</p>
               </div>
-
-              <div class="p-2.5 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000]">
-                <span class="text-[10px] font-black text-emerald-600 uppercase">Đặc điểm 2</span>
-                <h4 class="text-xs sm:text-sm font-black text-slate-900">Cạnh Huyền AC</h4>
-                <p class="text-[11px] text-slate-600 font-medium">Là cạnh dài nhất trong tam giác vuông, luôn đối diện góc vuông B.</p>
+              <div class="p-2 rounded-xl bg-white border-2 border-black">
+                <span class="text-[9px] font-black text-emerald-600 uppercase">Đặc điểm 2</span>
+                <h4 class="text-xs font-black text-slate-900">Cạnh Huyền AC</h4>
+                <p class="text-[9px] sm:text-[10px] text-slate-600 font-medium">Dài nhất, đối diện góc vuông B.</p>
               </div>
             </div>
-
-          </div>
-        `;
-
-      } else if (slide.layout === 'formula') {
-        // ==========================================
-        // SLIDE 3: BENTO 4 CÔNG THỨC LƯỢNG GIÁC
-        // ==========================================
-        slideHtml = `
-          <div class="flex items-center justify-between pb-2 border-b border-black/10">
-            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-black border border-black uppercase">
-              ${escapeHtml(slide.badge || 'BỘ TỨ CÔNG THỨC')}
-            </span>
-            <span class="text-[11px] font-bold text-slate-400">Toán 9 • Lượng Giác</span>
-          </div>
-
-          <h2 contenteditable="true" class="text-base sm:text-2xl font-black tracking-tight my-1">
-            ${escapeHtml(slide.title)}
-          </h2>
-
-          <!-- 4 Formula Bento Cards -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 my-auto">
-            <!-- Sin -->
-            <div class="p-2.5 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1">
-              <span class="px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-black">SIN</span>
-              <h3 contenteditable="true" class="text-xs sm:text-sm font-black text-blue-600">Đối / Huyền</h3>
-              <p contenteditable="true" class="text-[10px] text-slate-600 font-medium">sin α = BC / AC</p>
-            </div>
-
-            <!-- Cos -->
-            <div class="p-2.5 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1">
-              <span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-black">COS</span>
-              <h3 contenteditable="true" class="text-xs sm:text-sm font-black text-emerald-600">Kề / Huyền</h3>
-              <p contenteditable="true" class="text-[10px] text-slate-600 font-medium">cos α = AB / AC</p>
-            </div>
-
-            <!-- Tan -->
-            <div class="p-2.5 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1">
-              <span class="px-2 py-0.5 rounded bg-amber-500 text-white text-[10px] font-black">TAN</span>
-              <h3 contenteditable="true" class="text-xs sm:text-sm font-black text-amber-600">Đối / Kề</h3>
-              <p contenteditable="true" class="text-[10px] text-slate-600 font-medium">tan α = BC / AB</p>
-            </div>
-
-            <!-- Cot -->
-            <div class="p-2.5 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1">
-              <span class="px-2 py-0.5 rounded bg-purple-600 text-white text-[10px] font-black">COT</span>
-              <h3 contenteditable="true" class="text-xs sm:text-sm font-black text-purple-600">Kề / Đối</h3>
-              <p contenteditable="true" class="text-[10px] text-slate-600 font-medium">cot α = AB / BC</p>
-            </div>
-          </div>
-
-          <!-- Mnemonic Box -->
-          <div class="p-2 rounded-xl bg-yellow-100/80 border-2 border-black text-xs font-black text-slate-900 flex items-center gap-2">
-            <span>💡 Mẹo Thần Chú:</span>
-            <span class="font-bold text-slate-700">Sao Đi Học - Cứ Khóc Hoài - Thôi Đừng Khóc - Có Kẹo Đây!</span>
           </div>
         `;
 
       } else {
-        // ==========================================
-        // GENERAL SLIDE WITH BENTO ELEMENTS
-        // ==========================================
-        const elements = slide.elements || [];
+        // Fallback layout
         slideHtml = `
-          <div class="flex items-center justify-between pb-2 border-b border-black/10">
-            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-black border border-black uppercase">
-              ${escapeHtml(slide.badge || 'NỘI DUNG BÀI HỌC')}
+          <div class="flex items-center justify-between pb-1.5 border-b border-black/10">
+            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[9px] sm:text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'NỘI DUNG')}
             </span>
-            <span class="text-[11px] font-bold text-slate-400">Trang ${currentSlideIdx + 1}</span>
+            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400">Trang ${currentSlideIdx + 1}</span>
           </div>
 
-          <h2 contenteditable="true" class="text-base sm:text-2xl font-black tracking-tight my-1">
+          <h2 contenteditable="true" class="text-xs sm:text-lg font-black tracking-tight my-0.5 truncate">
             ${escapeHtml(slide.title)}
           </h2>
 
-          <!-- Bento Grid of Elements -->
-          <div class="grid grid-cols-1 sm:grid-cols-${Math.min(elements.length, 3)} gap-2 sm:gap-3 my-auto">
-            ${elements.map((el, elIdx) => `
-              <div class="p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1.5 relative group">
-                <button onclick="removeSlideElement(${elIdx})" class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-red-100 text-red-600 font-black text-xs opacity-0 group-hover:opacity-100 transition-opacity">×</button>
-                <span class="px-2 py-0.5 rounded text-[9px] font-black text-white" style="background-color: ${el.badgeColor || '#2563EB'}">
-                  ${escapeHtml(el.tag || 'Mục ' + (elIdx + 1))}
-                </span>
-                <h4 contenteditable="true" class="text-xs sm:text-sm font-black text-slate-900">
-                  ${escapeHtml(el.title)}
-                </h4>
-                <p contenteditable="true" class="text-[11px] text-slate-600 font-medium leading-relaxed">
-                  ${escapeHtml(el.desc)}
-                </p>
-              </div>
-            `).join('')}
+          <div class="p-3 sm:p-4 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000] my-auto space-y-1">
+            <p contenteditable="true" class="text-xs sm:text-sm font-semibold text-slate-800 leading-relaxed">
+              ${escapeHtml(slide.subtitle || 'Nội dung phân tích sư phạm chi tiết.')}
+            </p>
           </div>
         `;
       }
@@ -1304,7 +1410,7 @@
       if (!currentDeck || !currentDeck.slides) return;
 
       dotsContainer.innerHTML = currentDeck.slides.map((_, i) => `
-        <button onclick="goToSlide(${i})" class="px-2.5 py-1 rounded-lg text-xs font-black border border-black ${i === currentSlideIdx ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 hover:bg-slate-100'}">
+        <button onclick="goToSlide(${i})" class="px-2 py-0.5 rounded-lg text-[10px] font-black border border-black ${i === currentSlideIdx ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 hover:bg-slate-100'}">
           ${i + 1}
         </button>
       `).join('');
@@ -1318,18 +1424,13 @@
     }
 
     function prevSlide() {
-      if (currentSlideIdx > 0) {
-        goToSlide(currentSlideIdx - 1);
-      }
+      if (currentSlideIdx > 0) goToSlide(currentSlideIdx - 1);
     }
 
     function nextSlide() {
-      if (currentDeck && currentSlideIdx < currentDeck.slides.length - 1) {
-        goToSlide(currentSlideIdx + 1);
-      }
+      if (currentDeck && currentSlideIdx < currentDeck.slides.length - 1) goToSlide(currentSlideIdx + 1);
     }
 
-    // Canvas Actions
     function cycleBackground() {
       currentBgIdx = (currentBgIdx + 1) % BACKGROUND_PRESETS.length;
       renderCurrentSlide();
@@ -1339,31 +1440,6 @@
       currentFontIdx = (currentFontIdx + 1) % FONT_PRESETS.length;
       document.getElementById('current-font-name').innerText = FONT_PRESETS[currentFontIdx].name;
       renderCurrentSlide();
-    }
-
-    function addSlideElement() {
-      if (!currentDeck || !currentDeck.slides) return;
-      const slide = currentDeck.slides[currentSlideIdx];
-      if (!slide.elements) slide.elements = [];
-      const newIdx = slide.elements.length + 1;
-      slide.elements.push({
-        id: 'el-custom-' + Date.now(),
-        type: 'card',
-        tag: 'Mục ' + newIdx,
-        title: 'Nội dung mới ' + newIdx,
-        desc: 'Bấm vào để nhập mô tả hoặc công thức cho mục này...',
-        badgeColor: '#2563EB'
-      });
-      renderCurrentSlide();
-    }
-
-    function removeSlideElement(elIdx) {
-      if (!currentDeck || !currentDeck.slides) return;
-      const slide = currentDeck.slides[currentSlideIdx];
-      if (slide.elements && slide.elements[elIdx]) {
-        slide.elements.splice(elIdx, 1);
-        renderCurrentSlide();
-      }
     }
 
     function enterFullscreenPresentation() {
@@ -1410,7 +1486,6 @@
         if (data.success && data.decks) {
           savedDecks = data.decks;
           renderLibraryDecks();
-          // Update counts
           document.querySelectorAll('.decks-count-text').forEach(el => el.innerText = savedDecks.length);
           const badgeEl = document.getElementById('badge-library-count');
           if (badgeEl) badgeEl.innerText = savedDecks.length;
@@ -1447,7 +1522,7 @@
                   ${escapeHtml(deck.meta.subject || 'Chuyên đề')}
                 </span>
                 <span class="text-[11px] font-bold text-slate-400">
-                  ${(deck.slides || []).length} Slide
+                  ${(deck.slides || []).length} Slide (16:9)
                 </span>
               </div>
               <h3 class="text-sm sm:text-base font-black text-slate-900">
@@ -1455,7 +1530,6 @@
               </h3>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex items-center gap-1.5 shrink-0">
               <button onclick="openDeckById('${deck.id}')" class="neo-btn px-3 py-1.5 bg-blue-600 text-white text-xs font-black">
                 <i data-lucide="eye" class="w-3.5 h-3.5"></i> Mở Canvas
@@ -1473,9 +1547,7 @@
 
     function openDeckById(id) {
       const deck = savedDecks.find(d => d.id === id);
-      if (deck) {
-        openDeckInCanvas(deck);
-      }
+      if (deck) openDeckInCanvas(deck);
     }
 
     async function deleteDeckById(id) {
@@ -1498,7 +1570,6 @@
       }
     });
 
-    // Helper
     function escapeHtml(str) {
       if (!str) return '';
       return String(str)
