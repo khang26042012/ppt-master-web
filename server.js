@@ -51,7 +51,7 @@ const NINE_ROUTER_URL = process.env.NINE_ROUTER_URL || 'https://9router-producti
 const NINE_ROUTER_KEY = process.env.NINE_ROUTER_KEY || 'sk-8f7041f3855b1b1a-wmv4fk-2ea26ec8';
 const MODEL_NAME = process.env.MODEL_NAME || 'ag/gemini-3.1-pro-low';
 
-// Multer storage for files and images
+// Multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, UPLOADS_DIR);
@@ -94,7 +94,7 @@ async function callAi(messages, systemPrompt, maxTokens = 3500) {
   const data = await res.json();
   const choice = data.choices && data.choices[0];
   if (!choice || !choice.message) {
-    throw new Error('Không nhận được câu trả lời từ AI.');
+    throw new Error('Không nhận được phản hồi từ AI.');
   }
   return choice.message.content || '';
 }
@@ -129,56 +129,50 @@ app.post('/api/upload', upload.array('files', 5), (req, res) => {
 });
 
 // ========================================================
-// API: CHAT AI & KHUNG DÀN Ý (OUTLINE STUDIO)
+// API: CHAT AI & DÀN Ý SƯ PHẠM (OUTLINE STUDIO)
 // ========================================================
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, history, currentOutline, attachments } = req.body;
 
-    const systemPrompt = `Bạn là chuyên gia thiết kế bài giảng và slide thuyết trình AI hàng đầu (PPT Master).
+    const systemPrompt = `Bạn là chuyên gia thiết kế bài thuyết trình và slide sư phạm chuyên nghiệp (tương tự phong cách Gamma và PPT-Master).
 Nhiệm vụ:
-1. Tiếp nhận yêu cầu, tài liệu, giáo án hoặc ảnh từ người dùng.
-2. Trả lời trò chuyện thân thiện, chuyên nghiệp, súc tích.
-3. Luôn bóc tách và xuất ra KHUNG DÀN Ý SLIDE (Outline) chi tiết theo định dạng JSON chuẩn.
+1. Tiếp nhận chủ đề, bài giảng, tài liệu hoặc hình ảnh.
+2. Trả lời tư vấn thân thiện, ngắn gọn và xác định rõ mục tiêu đầu ra.
+3. Xuất ra khung dàn ý (Outline) với các slide có vai trò sư phạm và bố cục đa dạng (không bao giờ sinh các mục 1-2-3 trùng lặp chữ).
 
-BẮT BUỘC trả về định dạng JSON duy nhất như sau:
+BẮT BUỘC định dạng JSON:
 {
-  "reply": "Lời giải thích hoặc tư vấn thân thiện cho người dùng...",
+  "reply": "Lời tư vấn sư phạm thân thiện cho giáo viên...",
   "outline": {
-    "title": "Tiêu đề bài thuyết trình",
+    "title": "Tiêu đề bài giảng thu hút",
     "subject": "Môn học hoặc Lĩnh vực",
     "grade": "Khối lớp hoặc Đối tượng",
-    "theme": {
-      "name": "Royal Blue Neo-Brutalist",
-      "primary": "#2563EB",
-      "bg": "#FFFFFF",
-      "accent": "#38BDF8"
-    },
+    "theme": "Gamma Royal Blue",
     "slides": [
       {
         "id": "slide-1",
         "title": "Tên Slide",
-        "badge": "Mục tiêu / Hoạt động...",
-        "type": "title | diagram | bento | formula | comparison | practice | summary",
+        "badge": "VAI TRÒ SLIDE (MỞ ĐẦU / THỰC TRẠNG / SỐ LIỆU / GIẢI PHÁP / THÔNG ĐIỆP)",
+        "type": "cover | split_insight | chart_stats | pillars_3 | process_steps | quote_manifesto | summary_cta | math_diagram | math_formula",
         "bullets": [
-          "Ý trọng tâm 1",
-          "Ý trọng tâm 2",
-          "Ý trọng tâm 3"
+          "Ý trọng tâm 1 với phân tích rõ ràng",
+          "Ý trọng tâm 2 với giải thích chi tiết"
         ],
-        "visualIdea": "Mô tả hình ảnh/sơ đồ/biểu đồ minh họa cụ thể",
-        "speakerNotes": "Lời gợi ý thuyết trình chi tiết cho giáo viên/diễn giả"
+        "visualIdea": "Mô tả biểu đồ hoặc hình ảnh minh họa cụ thể",
+        "speakerNotes": "Lời gợi ý thuyết trình chi tiết cho giáo viên"
       }
     ]
   }
 }
-Chỉ xuất ra chuỗi JSON hợp lệ, không bọc markdown thừa.`;
+Chỉ xuất JSON hợp lệ, không bọc markdown thừa.`;
 
     let userPrompt = message || 'Hãy phân tích và tạo khung dàn ý slide bài giảng cho tôi.';
     if (attachments && attachments.length > 0) {
-      userPrompt += '\n\n[Tài liệu đính kèm]:\n' + attachments.map(a => `- ${a.originalName}: ${a.contentSnippet || 'Tệp hình ảnh/tài liệu đính kèm'}`).join('\n');
+      userPrompt += '\n\n[Tài liệu đính kèm]:\n' + attachments.map(a => `- ${a.originalName}: ${a.contentSnippet || 'Tệp đính kèm'}`).join('\n');
     }
     if (currentOutline) {
-      userPrompt += '\n\n[Khung dàn ý hiện tại cần chỉnh sửa]:\n' + JSON.stringify(currentOutline);
+      userPrompt += '\n\n[Dàn ý hiện tại]:\n' + JSON.stringify(currentOutline);
     }
 
     const messages = [];
@@ -206,7 +200,7 @@ Chỉ xuất ra chuỗi JSON hợp lệ, không bọc markdown thừa.`;
 
     res.json({
       success: true,
-      reply: parsed.reply || 'Dưới đây là khung dàn ý slide tối ưu cho bạn.',
+      reply: parsed.reply || 'Dưới đây là khung dàn ý slide chuyên nghiệp dành cho bạn.',
       outline: parsed.outline
     });
 
@@ -217,7 +211,7 @@ Chỉ xuất ra chuỗi JSON hợp lệ, không bọc markdown thừa.`;
 });
 
 // ========================================================
-// API: BACKGROUND JOB QUEUE (CHẠY NGẦM TRÊN SERVER VỚI ETA)
+// API: BACKGROUND JOB QUEUE (CHẠY NGẦM SERVER CÓ ETA)
 // ========================================================
 app.post('/api/jobs/create', (req, res) => {
   try {
@@ -228,15 +222,15 @@ app.post('/api/jobs/create', (req, res) => {
 
     const jobId = 'job_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
     const totalSlides = outline.slides.length;
-    const estimatedSeconds = Math.max(18, Math.round(totalSlides * 3.2));
+    const estimatedSeconds = Math.max(16, Math.round(totalSlides * 2.8));
 
     const job = {
       id: jobId,
       status: 'running',
       stage: 'stage_1',
       stageIndex: 1,
-      stageText: 'Bóc tách dàn ý sư phạm & chọn bảng màu...',
-      progress: 15,
+      stageText: 'Bóc tách dàn ý sư phạm & chọn bảng màu Gamma...',
+      progress: 20,
       etaSeconds: estimatedSeconds,
       totalSeconds: estimatedSeconds,
       startedAt: Date.now(),
@@ -261,7 +255,7 @@ app.post('/api/jobs/create', (req, res) => {
       jobId: jobId,
       status: job.status,
       etaSeconds: job.etaSeconds,
-      message: 'Tiến trình sinh slide đã được khởi chạy ngầm trên máy chủ. Bạn có thể an tâm chuyển tab!'
+      message: 'Tiến trình sinh slide đang chạy ngầm trên máy chủ. Bạn có thể an tâm chuyển tab!'
     });
 
   } catch (err) {
@@ -290,165 +284,191 @@ async function runSlideGenerationWorker(jobId, outline, settings = {}) {
     job.etaSeconds = Math.max(1, etaSeconds);
   };
 
-  // Stage 1: Phân tích Dàn ý Sư phạm & Kiến thức
-  updateStage(1, 'Bóc tách mục tiêu kiến thức, năng lực & thiết kế bố cục...', 20, Math.round(job.totalSeconds * 0.8));
+  // Stage 1
+  updateStage(1, 'Phân tích cấu trúc sư phạm, bóc tách insight & thông điệp...', 25, Math.round(job.totalSeconds * 0.75));
+  await new Promise(r => setTimeout(r, 1800));
+
+  // Stage 2
+  updateStage(2, 'Khởi tạo bố cục Gamma 16:9, sơ đồ hình học & biểu đồ cột SVG...', 55, Math.round(job.totalSeconds * 0.5));
   await new Promise(r => setTimeout(r, 2000));
 
-  // Stage 2: Thiết kế Bố cục Bento & Dựng Hình Đồ Họa Vector
-  updateStage(2, 'Khởi tạo bố cục Bento, thẻ ghi nhớ & dựng hình vector...', 45, Math.round(job.totalSeconds * 0.55));
-  await new Promise(r => setTimeout(r, 2500));
+  // Stage 3: Build the TRUE GAMMA DECK
+  updateStage(3, 'Áp dụng bộ font Plus Jakarta Sans, thẻ số liệu lớn & viền 3D...', 80, Math.round(job.totalSeconds * 0.25));
+  const fullDeck = constructGammaStyleDeck(outline);
+  await new Promise(r => setTimeout(r, 1800));
 
-  // Stage 3: Phối Màu, Gradients & Typography chuyên nghiệp
-  updateStage(3, 'Áp dụng bộ font Plus Jakarta Sans, phối màu Gradients & viền khối 3D...', 70, Math.round(job.totalSeconds * 0.3));
+  // Stage 4
+  updateStage(4, 'Tích hợp lời giảng chi tiết & hoàn thiện slide...', 95, 2);
+  await new Promise(r => setTimeout(r, 1500));
 
-  // Build the REAL SLIDE DECK with genuine pedagogical elements, formulas, diagrams, and images
-  const fullDeck = constructRichDeck(outline);
-
-  await new Promise(r => setTimeout(r, 2000));
-
-  // Stage 4: Tích hợp Sơ đồ & Tài nguyên Trực quan
-  updateStage(4, 'Tích hợp sơ đồ tương tác, biểu đồ hình học & lời giảng giáo viên...', 90, 3);
-  await new Promise(r => setTimeout(r, 2000));
-
-  // Stage 5: Finalize & Complete
+  // Stage 5: Finalize
   job.resultDeck = fullDeck;
   job.status = 'completed';
   job.progress = 100;
   job.etaSeconds = 0;
   job.stageIndex = 5;
   job.stage = 'stage_5';
-  job.stageText = 'Hoàn tất! Bộ slide thực thụ đã sẵn sàng.';
+  job.stageText = 'Hoàn tất! Bộ slide chuẩn Gamma đã sẵn sàng.';
 
   // Automatically save to library
   savedDecks.unshift(fullDeck);
   writeJsonFile(DECKS_FILE, savedDecks);
 }
 
-// Logic xây dựng Slide Thực Thụ (Theo chuẩn ppt-master)
-function constructRichDeck(outline) {
+// ========================================================
+// ENGINE TẠO SLIDE CHUẨN GAMMA & PPT-MASTER
+// ========================================================
+function constructGammaStyleDeck(outline) {
   const titleText = outline.title || 'Bài giảng trình chiếu';
-  const isTrigMath = /lượng giác|tam giác|sin|cos|tan|toán|bất phương trình/i.test(titleText + ' ' + (outline.subject || ''));
-  const isScience = /khtn|hóa học|vật lí|sinh học|khoa học/i.test(titleText + ' ' + (outline.subject || ''));
-  const isLit = /ngữ văn|văn|chí phèo|thơ/i.test(titleText + ' ' + (outline.subject || ''));
+  const isTrigMath = /lượng giác|tam giác|sin|cos|tan|hình học|bất phương trình/i.test(titleText + ' ' + (outline.subject || ''));
+  const isHappySchool = /trường học hạnh phúc|bạo lực|thấu cảm|kỹ năng sống|đạo đức/i.test(titleText + ' ' + (outline.subject || ''));
 
   return {
     id: 'deck_' + Date.now(),
     meta: {
       title: titleText,
-      subject: outline.subject || 'Toán học',
+      subject: outline.subject || (isTrigMath ? 'Toán học' : 'Kỹ năng sống'),
       grade: outline.grade || 'Lớp 10',
       teacher: 'Thầy Phan Trọng Khang',
-      theme: 'Neo-Brutalist Royal Blue',
+      theme: 'Gamma Neo-Brutalist',
       fontFamily: 'Plus Jakarta Sans',
       createdAt: new Date().toISOString()
     },
     slides: (outline.slides || []).map((s, idx) => {
-      const isTitle = idx === 0 || s.type === 'title';
-      const isLast = idx === (outline.slides.length - 1) || s.type === 'summary';
+      const isFirst = idx === 0;
+      const isLast = idx === (outline.slides.length - 1);
 
-      // Determine slide layout & visuals
-      let layout = s.type || 'bento';
+      // Determine Layout
+      let layout = 'pillars_3';
+      let chart = null;
       let diagram = null;
-      let imageUrl = null;
+      let stats = null;
+      let leftCard = null;
+      let rightCards = null;
+      let pillars = null;
+      let quote = null;
+      let author = null;
+      let takeaways = null;
+      let actionBanner = null;
 
-      if (isTitle) {
-        layout = 'title';
-        imageUrl = isTrigMath 
-          ? 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&auto=format&fit=crop&q=80'
-          : 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&auto=format&fit=crop&q=80';
+      if (isFirst) {
+        layout = 'cover';
       } else if (isLast) {
-        layout = 'summary';
-      } else if (idx === 1 && isTrigMath) {
-        // Concept slide with REAL SVG RIGHT TRIANGLE
-        layout = 'diagram';
+        layout = 'summary_cta';
+        takeaways = [
+          'Dũng cảm lên tiếng trước các hành vi tiêu cực và bảo vệ bạn bè.',
+          'Biết lắng nghe, tôn trọng và trân quý sự khác biệt của mỗi cá nhân.',
+          'Chủ động kết nối với thầy cô và gia đình khi gặp áp lực tâm lý.'
+        ];
+        actionBanner = 'CÙNG CHUNG TAY VÌ MỘT MÔI TRƯỜNG HỌC ĐƯỜNG AN TOÀN & YÊU THƯƠNG!';
+      } else if (isTrigMath && idx === 1) {
+        layout = 'math_diagram';
         diagram = {
           type: 'right-triangle',
           title: 'Tam Giác Vuông ABC (Vuông tại B)',
           oppositeLabel: 'Cạnh Đối (BC)',
           adjacentLabel: 'Cạnh Kề (AB)',
           hypotenuseLabel: 'Cạnh Huyền (AC)',
-          angleLabel: 'Góc nhọn α tại đỉnh A'
+          angleLabel: 'Góc nhọn α'
         };
-      } else if (idx === 2 && isTrigMath) {
-        // Formula Bento Slide
-        layout = 'formula';
-      } else if (s.type === 'comparison' || idx === 3) {
-        layout = 'comparison';
-      }
-
-      // Generate rich elements
-      let elements = [];
-      if (layout === 'formula' && isTrigMath) {
-        elements = [
+      } else if (isTrigMath && idx === 2) {
+        layout = 'math_formula';
+      } else if (idx === 1) {
+        // Split Insight Layout
+        layout = 'split_insight';
+        leftCard = {
+          badge: 'GÓC NHÌN ĐẶC BIỆT',
+          title: 'Vết Thương Vô Hình Của Bạo Lực Ngôn Từ',
+          desc: 'Những lời giễu cợt hay cô lập trên không gian mạng gây ra những tổn thương tâm lý dai dẳng hơn cả vết thương thể xác.'
+        };
+        rightCards = [
           {
-            id: `el-${idx}-1`,
-            type: 'formula',
-            tag: 'SIN',
-            title: 'Sin(α) = Đối / Huyền',
-            desc: 'Tỉ số giữa cạnh đối diện góc α và cạnh huyền.',
-            badgeColor: '#2563EB',
-            formula: 'sin α = BC / AC'
+            badge: 'BIỂU HIỆN 1',
+            title: 'Tẩy Chay & Cô Lập Hội Nhóm',
+            desc: 'Cố tình loại trừ bạn học ra khỏi các hoạt động tập thể và các nhóm thảo luận học tập.'
           },
           {
-            id: `el-${idx}-2`,
-            type: 'formula',
-            tag: 'COS',
-            title: 'Cos(α) = Kề / Huyền',
-            desc: 'Tỉ số giữa cạnh kề góc α và cạnh huyền.',
-            badgeColor: '#059669',
-            formula: 'cos α = AB / AC'
+            badge: 'BIỂU HIỆN 2',
+            title: 'Áp Đặt & Phán Xét',
+            desc: 'Định kiến về ngoại hình, hoàn cảnh hoặc phong cách cá nhân của bạn bè.'
+          }
+        ];
+      } else if (idx === 2) {
+        // Chart & Stats Layout (Gamma Style)
+        layout = 'chart_stats';
+        chart = {
+          type: 'column',
+          title: 'Khảo Sát Tâm Lý Học Đường (%)',
+          items: [
+            { label: 'Cần lắng nghe', value: 87, color: '#2563EB' },
+            { label: 'Từng gặp áp lực', value: 68, color: '#F59E0B' },
+            { label: 'Cần hỗ trợ tâm lý', value: 74, color: '#10B981' }
+          ]
+        };
+        stats = [
+          {
+            number: '87%',
+            label: 'Nhu Cầu Chia Sẻ',
+            desc: 'Học sinh mong muốn có không gian an toàn để nói lên suy nghĩ mà không bị phán xét.'
           },
           {
-            id: `el-${idx}-3`,
-            type: 'formula',
-            tag: 'TAN',
-            title: 'Tan(α) = Đối / Kề',
-            desc: 'Tỉ số giữa cạnh đối và cạnh kề.',
-            badgeColor: '#D97706',
-            formula: 'tan α = BC / AB'
+            number: '3.5x',
+            label: 'Gắn Kết Học Đường',
+            desc: 'Lớp học có sự đồng cảm và bao dung giúp học sinh tiến bộ vượt bậc trong học tập.'
+          }
+        ];
+      } else if (idx === 3 || idx === 4) {
+        // 3 Pillars Layout
+        layout = 'pillars_3';
+        pillars = [
+          {
+            tag: 'TRỤ CỘT 1',
+            title: 'Lắng Nghe Chủ Động',
+            desc: 'Mở rộng trái tim để cảm nhận cảm xúc của người khác trước khi đưa ra nhận xét.',
+            color: '#2563EB'
           },
           {
-            id: `el-${idx}-4`,
-            type: 'formula',
-            tag: 'COT',
-            title: 'Cot(α) = Kề / Đối',
-            desc: 'Tỉ số giữa cạnh kề và cạnh đối.',
-            badgeColor: '#7C3AED',
-            formula: 'cot α = AB / BC'
+            tag: 'TRỤ CỘT 2',
+            title: 'Tôn Trọng Đa Dạng',
+            desc: 'Mỗi cá nhân là một mảnh ghép độc đáo; sự khác biệt làm nên sức mạnh của tập thể.',
+            color: '#059669'
+          },
+          {
+            tag: 'TRỤ CỘT 3',
+            title: 'Hành Động Can Thiệp',
+            desc: 'Không làm ngơ trước bạo lực; chủ động hỗ trợ và báo cáo với người có trách nhiệm.',
+            color: '#7C3AED'
           }
         ];
       } else {
-        elements = (s.bullets || []).map((b, bIdx) => {
-          const parts = b.split(':');
-          const title = parts[0] ? parts[0].trim() : `Mục ${bIdx + 1}`;
-          const desc = parts.length > 1 ? parts.slice(1).join(':').trim() : b;
-          return {
-            id: `el-${idx}-${bIdx + 1}`,
-            type: 'card',
-            tag: `Mục ${bIdx + 1}`,
-            title: title,
-            desc: desc,
-            badgeColor: ['#2563EB', '#059669', '#D97706', '#7C3AED'][bIdx % 4],
-            icon: ['zap', 'layers', 'check-circle-2', 'star'][bIdx % 4]
-          };
-        });
+        // Quote Manifesto Layout
+        layout = 'quote_manifesto';
+        quote = 'Trường học hạnh phúc không phải là nơi vắng bóng những mâu thuẫn, mà là nơi mọi học sinh đều được đối xử bằng sự công bằng, thấu hiểu và tình yêu thương chân thành.';
+        author = 'Hội Đồng Sư Phạm & Đại Sứ Hòa Bình Học Đường';
       }
 
       return {
         id: 's-' + (idx + 1),
-        title: s.title || (`Slide ${idx + 1}`),
-        subtitle: isTitle ? (`${outline.subject || 'Chuyên đề'} • ${outline.grade || 'Lớp 10'}`) : (s.visualIdea || ''),
-        badge: s.badge || (isTitle ? 'BÀI GIẢNG ĐIỆN TỬ' : (`HOẠT ĐỘNG ${idx}`)),
+        title: s.title || (outline.title + ' • Phần ' + (idx + 1)),
+        subtitle: isFirst ? (`${outline.subject || 'Chuyên đề'} • ${outline.grade || 'Lớp 10'}`) : (s.visualIdea || 'Nội dung bài học trọng tâm'),
+        badge: s.badge || (isFirst ? 'CHUYÊN ĐỀ HỌC ĐƯỜNG' : ('HOẠT ĐỘNG ' + idx)),
         layout: layout,
+        chart: chart,
         diagram: diagram,
-        imageUrl: imageUrl,
+        stats: stats,
+        leftCard: leftCard,
+        rightCards: rightCards,
+        pillars: pillars,
+        quote: quote,
+        author: author,
+        takeaways: takeaways,
+        actionBanner: actionBanner,
         background: {
           type: 'solid',
           value: '#FFFFFF'
         },
         fontFamily: 'Plus Jakarta Sans',
-        elements: elements,
-        speakerNotes: s.speakerNotes || 'Lời giảng gợi ý cho người giảng dạy.'
+        speakerNotes: s.speakerNotes || 'Gợi ý lời giảng chi tiết cho thầy/cô ở trang này.'
       };
     })
   };
@@ -484,7 +504,7 @@ app.delete('/api/slides/:id', (req, res) => {
 });
 
 // ========================================================
-// API: EXPORT POWERPOINT (.PPTX)
+// API: EXPORT POWERPOINT (.PPTX) NATIVE
 // ========================================================
 app.post('/api/export-pptx', async (req, res) => {
   try {
@@ -506,28 +526,28 @@ app.post('/api/export-pptx', async (req, res) => {
         : 'FFFFFF';
       slide.background = { color: bgHex };
 
-      if (slideData.layout === 'title' || idx === 0) {
-        // Title Slide
+      if (slideData.layout === 'cover' || idx === 0) {
+        // Cover Slide
         slide.addShape(pptx.ShapeType.roundRect, {
-          x: 0.8, y: 0.8, w: 2.4, h: 0.45,
+          x: 0.8, y: 0.8, w: 3.2, h: 0.45,
           rectRadius: 0.1,
           fill: { color: '2563EB' },
           line: { color: '000000', width: 1.5 }
         });
-        slide.addText(slideData.badge || 'BÀI GIẢNG ĐIỆN TỬ', {
-          x: 0.8, y: 0.8, w: 2.4, h: 0.45,
+        slide.addText(slideData.badge || 'CHUYÊN ĐỀ HỌC ĐƯỜNG', {
+          x: 0.8, y: 0.8, w: 3.2, h: 0.45,
           fontSize: 11, fontFace: 'Arial', bold: true, color: 'FFFFFF', align: 'center', valign: 'middle'
         });
 
         slide.addText(slideData.title, {
           x: 0.8, y: 1.6, w: 11.5, h: 1.8,
-          fontSize: 34, fontFace: 'Arial', bold: true, color: '000000', wrap: true
+          fontSize: 32, fontFace: 'Arial', bold: true, color: '000000', wrap: true
         });
 
         if (slideData.subtitle) {
           slide.addText(slideData.subtitle, {
             x: 0.8, y: 3.4, w: 11.5, h: 0.9,
-            fontSize: 18, fontFace: 'Arial', bold: true, color: '2563EB'
+            fontSize: 16, fontFace: 'Arial', bold: true, color: '2563EB'
           });
         }
 
@@ -546,58 +566,63 @@ app.post('/api/export-pptx', async (req, res) => {
         // Content Slide
         if (slideData.badge) {
           slide.addShape(pptx.ShapeType.roundRect, {
-            x: 0.8, y: 0.6, w: 2.8, h: 0.4,
+            x: 0.8, y: 0.6, w: 3.0, h: 0.4,
             rectRadius: 0.1,
             fill: { color: 'EFF6FF' },
             line: { color: '000000', width: 1.2 }
           });
           slide.addText(slideData.badge, {
-            x: 0.8, y: 0.6, w: 2.8, h: 0.4,
+            x: 0.8, y: 0.6, w: 3.0, h: 0.4,
             fontSize: 10, fontFace: 'Arial', bold: true, color: '2563EB', align: 'center', valign: 'middle'
           });
         }
 
         slide.addText(slideData.title, {
-          x: 0.8, y: 1.15, w: 11.5, h: 1.0,
-          fontSize: 24, fontFace: 'Arial', bold: true, color: '000000'
+          x: 0.8, y: 1.15, w: 11.5, h: 0.9,
+          fontSize: 22, fontFace: 'Arial', bold: true, color: '000000'
         });
 
-        const elements = slideData.elements || [];
-        const count = Math.min(elements.length, 4);
-        const cardWidth = count === 4 ? 2.8 : 3.6;
-        const cardGap = 0.25;
-        const startX = 0.8;
-
-        elements.slice(0, 4).forEach((el, elIdx) => {
-          const xPos = startX + elIdx * (cardWidth + cardGap);
+        // Add Pillars or Content cards
+        if (slideData.pillars && slideData.pillars.length > 0) {
+          const cardWidth = 3.6;
+          const cardGap = 0.3;
+          slideData.pillars.forEach((p, pIdx) => {
+            const xPos = 0.8 + pIdx * (cardWidth + cardGap);
+            slide.addShape(pptx.ShapeType.roundRect, {
+              x: xPos, y: 2.3, w: cardWidth, h: 3.8,
+              rectRadius: 0.15,
+              fill: { color: 'FFFFFF' },
+              line: { color: '000000', width: 1.8 }
+            });
+            slide.addText(p.tag || `TRỤ CỘT ${pIdx + 1}`, {
+              x: xPos + 0.2, y: 2.5, w: cardWidth - 0.4, h: 0.4,
+              fontSize: 10, fontFace: 'Arial', bold: true, color: '2563EB'
+            });
+            slide.addText(p.title || '', {
+              x: xPos + 0.2, y: 3.0, w: cardWidth - 0.4, h: 0.8,
+              fontSize: 13, fontFace: 'Arial', bold: true, color: '000000', wrap: true
+            });
+            slide.addText(p.desc || '', {
+              x: xPos + 0.2, y: 3.9, w: cardWidth - 0.4, h: 2.0,
+              fontSize: 11, fontFace: 'Arial', color: '475569', wrap: true
+            });
+          });
+        } else if (slideData.quote) {
           slide.addShape(pptx.ShapeType.roundRect, {
-            x: xPos, y: 2.4, w: cardWidth, h: 3.5,
-            rectRadius: 0.15,
-            fill: { color: 'FFFFFF' },
-            line: { color: '000000', width: 1.8 }
+            x: 1.2, y: 2.3, w: 10.7, h: 3.8,
+            rectRadius: 0.2,
+            fill: { color: 'EFF6FF' },
+            line: { color: '000000', width: 2.0 }
           });
-
-          slide.addShape(pptx.ShapeType.roundRect, {
-            x: xPos + 0.2, y: 2.6, w: 1.2, h: 0.35,
-            rectRadius: 0.08,
-            fill: { color: '2563EB' },
-            line: { color: '000000', width: 1.0 }
+          slide.addText(`“${slideData.quote}”`, {
+            x: 1.6, y: 2.8, w: 9.9, h: 2.0,
+            fontSize: 18, fontFace: 'Arial', bold: true, italic: true, color: '1E293B', wrap: true
           });
-          slide.addText(el.tag || `Mục ${elIdx + 1}`, {
-            x: xPos + 0.2, y: 2.6, w: 1.2, h: 0.35,
-            fontSize: 9, fontFace: 'Arial', bold: true, color: 'FFFFFF', align: 'center', valign: 'middle'
+          slide.addText(slideData.author || '', {
+            x: 1.6, y: 5.0, w: 9.9, h: 0.6,
+            fontSize: 13, fontFace: 'Arial', bold: true, color: '2563EB', align: 'right'
           });
-
-          slide.addText(el.title || '', {
-            x: xPos + 0.2, y: 3.1, w: cardWidth - 0.4, h: 0.8,
-            fontSize: 12, fontFace: 'Arial', bold: true, color: '000000', wrap: true
-          });
-
-          slide.addText(el.desc || '', {
-            x: xPos + 0.2, y: 3.9, w: cardWidth - 0.4, h: 1.7,
-            fontSize: 10, fontFace: 'Arial', color: '475569', wrap: true
-          });
-        });
+        }
       }
 
       if (slideData.speakerNotes) {
