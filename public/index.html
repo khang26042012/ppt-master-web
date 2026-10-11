@@ -8,10 +8,10 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts: Plus Jakarta Sans -->
+  <!-- Google Fonts: Plus Jakarta Sans, Playfair Display, Space Grotesk, Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   
   <!-- GSAP 3.12 Core & Timeline -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -65,22 +65,6 @@
       transform: translate(1.5px, 1.5px);
     }
 
-    .neo-btn-primary {
-      background-color: #2563EB;
-      color: #FFFFFF;
-    }
-    .neo-btn-primary:hover {
-      background-color: #1D4ED8;
-    }
-
-    .neo-btn-white {
-      background-color: #FFFFFF;
-      color: #0A0F1D;
-    }
-    .neo-btn-white:hover {
-      background-color: #F1F5F9;
-    }
-
     .neo-input {
       border: 2px solid #000000;
       border-radius: 0.875rem;
@@ -90,488 +74,678 @@
     }
     .neo-input:focus {
       box-shadow: 3.5px 3.5px 0px #2563EB;
+      border-color: #000000;
     }
 
     /* Floating Bottom Dock */
-    .bottom-dock {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border: 2px solid #000000;
-      border-radius: 1.5rem;
-      box-shadow: 0px 6px 0px #000000;
+    .dock-container {
+      position: fixed;
+      bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      width: calc(100% - 1.5rem);
+      max-width: 440px;
     }
-
+    .dock-bar {
+      background: #FFFFFF;
+      border: 2.5px solid #000000;
+      border-radius: 1.5rem;
+      box-shadow: 4px 4px 0px #000000;
+      padding: 0.375rem 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 0.25rem;
+    }
+    .dock-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      padding: 0.625rem 0.5rem;
+      border-radius: 1rem;
+      font-weight: 800;
+      font-size: 0.785rem;
+      color: #475569;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
     .dock-tab.active {
-      background-color: #2563EB;
+      background: #2563EB;
       color: #FFFFFF;
+      border: 2px solid #000000;
       box-shadow: 2px 2px 0px #000000;
     }
 
-    /* Editable inline text */
-    [contenteditable="true"]:focus {
-      outline: 2px dashed #2563EB;
-      border-radius: 4px;
-      padding: 1px 3px;
+    /* Chat bubble */
+    .chat-bubble-user {
+      background: #2563EB;
+      color: #FFFFFF;
+      border: 2px solid #000000;
+      border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
+      box-shadow: 3px 3px 0px #000000;
+    }
+    .chat-bubble-ai {
+      background: #FFFFFF;
+      color: #0F172A;
+      border: 2px solid #000000;
+      border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
+      box-shadow: 3px 3px 0px #000000;
     }
 
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
+    /* Inline editable */
+    [contenteditable="true"]:hover {
+      outline: 2px dashed #2563EB;
+      outline-offset: 2px;
+      cursor: text;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
-      border-radius: 9999px;
+    [contenteditable="true"]:focus {
+      outline: 2px solid #2563EB;
+      outline-offset: 2px;
+      background-color: rgba(37, 99, 235, 0.05);
+      border-radius: 4px;
     }
+
+    /* Pulsing animations */
+    @keyframes laserScan {
+      0% { top: 0%; opacity: 0.2; }
+      50% { opacity: 0.9; }
+      100% { top: 100%; opacity: 0.2; }
+    }
+    .animate-laser {
+      animation: laserScan 2.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: rotateSlow 18s linear infinite;
+    }
+
+    /* Font classes */
+    .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    .font-outfit { font-family: 'Outfit', sans-serif; }
   </style>
 </head>
-<body class="min-h-screen antialiased selection:bg-blue-600 selection:text-white pt-4 px-3 sm:px-6 max-w-5xl mx-auto">
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
 
-  <!-- ========================================================= -->
-  <!-- TOP BRAND STRIP (GỌN GÀNG, KHÔNG DÙNG HEADER CỒNG KỀNH) -->
-  <!-- ========================================================= -->
-  <div class="flex items-center justify-between pb-3">
-    <div class="flex items-center gap-2.5">
-      <div class="w-9 h-9 rounded-xl bg-blue-600 border-2 border-black flex items-center justify-center text-white shadow-[2px_2px_0px_#000000]">
-        <i data-lucide="sparkles" class="w-5 h-5"></i>
-      </div>
-      <div>
-        <div class="text-[11px] font-black tracking-wider text-blue-600 uppercase">PPT MASTER AI</div>
-        <div class="text-sm font-black text-slate-950 -mt-0.5">SLIDE STUDIO • BÀI TẬP 3</div>
-      </div>
-    </div>
-    
-    <div class="flex items-center gap-2">
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-black text-[11px] font-black text-blue-700 shadow-[1.5px_1.5px_0px_#000000]">
-        <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-        <span>9ROUTER ACTIVE</span>
-      </div>
-    </div>
-  </div>
+  <!-- ========================================== -->
+  <!-- MAIN APP CONTAINER -->
+  <!-- ========================================== -->
+  <main class="max-w-4xl mx-auto px-3.5 sm:px-6 pt-3 sm:pt-6 pb-28">
 
-  <!-- ========================================================= -->
-  <!-- MAIN APP PANELS                                           -->
-  <!-- ========================================================= -->
-  <main class="w-full space-y-6">
-
-    <!-- ========================================================= -->
-    <!-- TAB 1: CHAT AI & DUYỆT KHUNG DÀN Ý (OUTLINE STUDIO)       -->
-    <!-- ========================================================= -->
-    <div id="view-chat" class="view-panel space-y-5">
+    <!-- ========================================== -->
+    <!-- VIEW 1: TRANG CHỦ (HOME INTRODUCTION) -->
+    <!-- ========================================== -->
+    <section id="view-home" class="space-y-4 sm:space-y-6">
       
-      <!-- Welcome Hero Card -->
-      <div class="neo-card p-4 sm:p-6 bg-white space-y-3">
-        <div class="flex items-center justify-between">
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black border border-black">
-            <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
-            CHAT STUDIO TƯƠNG TÁC
-          </div>
-          <span class="text-[10px] font-bold text-slate-400">BƯỚC 1: DUYỆT KHUNG TRƯỚC</span>
+      <!-- Top Branding Pill -->
+      <div class="flex items-center justify-between gap-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 border-2 border-black shadow-[2px_2px_0px_#000]">
+          <span class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-ping"></span>
+          <span class="text-xs font-black tracking-wide text-blue-950 uppercase">PPT Master AI • v2.5 Online</span>
         </div>
-        
-        <h1 class="text-xl sm:text-2xl font-black text-slate-950 leading-snug">
-          Chat Với AI Để Xây Dựng & Tinh Chỉnh <span class="text-blue-600 underline decoration-black decoration-2">Khung Dàn Ý Slide</span>
-        </h1>
-        <p class="text-xs text-slate-600 font-semibold leading-relaxed">
-          Nhập chủ đề hoặc tải lên giáo án/tài liệu/hình ảnh. AI sẽ phân tích và đưa ra khung dàn ý trước để thầy/cô chỉnh sửa trực tiếp. Khi đã ưng ý, bấm tạo slide thật!
-        </p>
-
-        <!-- Quick Topic Chips -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pt-1 pb-1">
-          <span class="text-[11px] font-extrabold text-slate-400 whitespace-nowrap">Gợi ý nhanh:</span>
-          <button onclick="quickFillPrompt('Kế hoạch bài dạy Toán 10: Bất phương trình bậc nhất hai ẩn (CV 5512)')" class="px-2.5 py-1 rounded-lg border border-black bg-slate-50 hover:bg-blue-50 text-[11px] font-bold whitespace-nowrap">📐 Toán 10 CV 5512</button>
-          <button onclick="quickFillPrompt('Bài giảng Ngữ văn 11: Phân tích truyện ngắn Chí Phèo - Nam Cao')" class="px-2.5 py-1 rounded-lg border border-black bg-slate-50 hover:bg-blue-50 text-[11px] font-bold whitespace-nowrap">📖 Văn 11 Chí Phèo</button>
-          <button onclick="quickFillPrompt('Thuyết trình Tin học 11: Trí tuệ nhân tạo và tương lai việc làm')" class="px-2.5 py-1 rounded-lg border border-black bg-slate-50 hover:bg-blue-50 text-[11px] font-bold whitespace-nowrap">💻 Tin học AI</button>
-          <button onclick="quickFillPrompt('Bài giảng Tiếng Anh 12: Unit 1 Life Stories We Admire')" class="px-2.5 py-1 rounded-lg border border-black bg-slate-50 hover:bg-blue-50 text-[11px] font-bold whitespace-nowrap">🌍 Tiếng Anh 12</button>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border-2 border-black shadow-[2px_2px_0px_#000]">
+          <span class="text-[11px] font-extrabold text-emerald-600 flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Railway 9Router Active
+          </span>
         </div>
       </div>
 
-      <!-- Chat History Container -->
-      <div class="neo-card p-4 sm:p-5 bg-white min-h-[380px] flex flex-col justify-between space-y-4">
-        
-        <!-- Messages Stream -->
-        <div id="chat-messages" class="space-y-4 max-h-[480px] overflow-y-auto pr-1">
-          
-          <!-- Default Bot Greeting -->
-          <div class="flex items-start gap-3 message-bubble">
-            <div class="w-8 h-8 rounded-xl bg-blue-600 border-2 border-black flex items-center justify-center text-white shrink-0 shadow-[1.5px_1.5px_0px_#000000]">
-              <i data-lucide="bot" class="w-4 h-4"></i>
-            </div>
-            <div class="space-y-2 max-w-xl">
-              <div class="p-3.5 rounded-2xl bg-slate-50 border-2 border-black text-xs font-semibold text-slate-800 leading-relaxed shadow-[2px_2px_0px_#000000]">
-                Xin chào thầy/cô! Em là <strong>PPT Master AI</strong>. Thầy/cô muốn tạo bài thuyết trình hoặc giáo án về chủ đề gì hôm nay? 
-                Thầy/cô có thể <strong>dán văn bản</strong>, tải lên <strong>file tài liệu</strong> hoặc <strong>ảnh chụp giáo án</strong>, em sẽ phân tích và lên khung dàn ý slide chi tiết ngay ạ!
-              </div>
-            </div>
+      <!-- Hero Banner -->
+      <div class="neo-card p-5 sm:p-8 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
+        <div class="relative z-10 space-y-3 sm:space-y-4">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-xs font-extrabold tracking-wider uppercase text-yellow-300">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Chuẩn Giáo Dục CV 5512 & Presentation Studio
           </div>
-
-        </div>
-
-        <!-- Attached Files Tray (Hidden when empty) -->
-        <div id="attachments-tray" class="hidden flex flex-wrap gap-2 pt-2 border-t border-black/10"></div>
-
-        <!-- Chat Input Form -->
-        <form id="chat-form" onsubmit="handleSendChat(event)" class="space-y-2 pt-2 border-t-2 border-black/10">
+          <h1 class="text-2xl sm:text-4xl font-black tracking-tight leading-snug sm:leading-tight">
+            Chuyển Kế Hoạch Bài Dạy Thành <br class="hidden sm:inline">
+            <span class="text-yellow-300 underline decoration-black decoration-4">Bộ Slide Thuyết Trình Thực Thụ</span>
+          </h1>
+          <p class="text-xs sm:text-base text-blue-100 font-medium leading-relaxed max-w-2xl">
+            Không còn phải chọn ô template tĩnh nhàm chán. Trò chuyện trực tiếp với AI, tải ảnh & giáo án, duyệt khung dàn ý sư phạm và để máy chủ kết xuất slide có hình ảnh, sơ đồ hình học SVG, bento cards & file PowerPoint native!
+          </p>
           
-          <div class="relative">
-            <textarea id="chat-input" rows="3" required
-              placeholder="Nhập yêu cầu, giáo án hoặc chỉnh sửa dàn ý... (Ví dụ: Thêm 1 slide ví dụ thực tế, hoặc đổi sang bố cục bento)"
-              class="neo-input w-full p-3 text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:bg-blue-50/20"></textarea>
-          </div>
-
-          <!-- Bottom Action Buttons: Attach File, Attach Image, Send Button -->
-          <div class="flex items-center justify-between gap-2">
-            
-            <div class="flex items-center gap-2">
-              <!-- Upload Image Button -->
-              <input type="file" id="file-image-input" accept="image/*" class="hidden" onchange="handleFileSelected(event, 'image')">
-              <button type="button" onclick="document.getElementById('file-image-input').click()" class="neo-btn neo-btn-white px-3 py-2 text-xs">
-                <i data-lucide="image" class="w-3.5 h-3.5 text-blue-600"></i>
-                <span>Ảnh</span>
-              </button>
-
-              <!-- Upload Doc Button -->
-              <input type="file" id="file-doc-input" accept=".txt,.md,.pdf,.docx,.json" class="hidden" onchange="handleFileSelected(event, 'doc')">
-              <button type="button" onclick="document.getElementById('file-doc-input').click()" class="neo-btn neo-btn-white px-3 py-2 text-xs">
-                <i data-lucide="paperclip" class="w-3.5 h-3.5 text-blue-600"></i>
-                <span>Tệp</span>
-              </button>
-            </div>
-
-            <!-- Send Button -->
-            <button type="submit" id="btn-send-chat" class="neo-btn neo-btn-primary px-5 py-2 text-xs sm:text-sm shadow-[2.5px_2.5px_0px_#000000]">
-              <i data-lucide="send" class="w-3.5 h-3.5"></i>
-              <span>Gửi Cho AI</span>
+          <div class="pt-2 flex flex-col sm:flex-row gap-3">
+            <button onclick="switchTab('tab-chat')" class="neo-btn px-5 py-3 bg-yellow-400 hover:bg-yellow-300 text-slate-950 text-sm sm:text-base font-black">
+              <i data-lucide="message-square-plus" class="w-4 h-4"></i> Bắt Đầu Tạo Slide Với AI
             </button>
-
+            <button onclick="switchTab('tab-library')" class="neo-btn px-5 py-3 bg-white text-slate-900 hover:bg-slate-100 text-sm sm:text-base font-black">
+              <i data-lucide="folder-kanban" class="w-4 h-4"></i> Thư Viện Bài Giảng (<span class="decks-count-text">0</span>)
+            </button>
           </div>
-
-        </form>
-
+        </div>
       </div>
 
-      <!-- Interactive Outline Preview Box (Appears when AI generates an outline) -->
-      <div id="outline-inspector-card" class="neo-card p-4 sm:p-6 bg-white hidden space-y-4">
-        
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b-2 border-black/10 gap-2">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <h3 class="text-sm sm:text-base font-black text-slate-950 uppercase">Khung Dàn Ý Slide Đã Được AI Bóc Tách</h3>
-            </div>
-            <p class="text-[11px] text-slate-500 font-medium">Bấm vào bất kỳ dòng nào để chỉnh sửa trực tiếp, hoặc chat để AI cập nhật.</p>
+      <!-- Feature Grid (3 Cards) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
+        <!-- Feature 1 -->
+        <div class="neo-card p-4 sm:p-5 bg-white space-y-2">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-blue-600 font-black">
+            <i data-lucide="messages-square" class="w-5 h-5"></i>
           </div>
-
-          <!-- Approve Button: Triggers Background Worker with ETA -->
-          <button onclick="approveOutlineAndGenerate()" class="neo-btn neo-btn-primary px-5 py-2.5 text-xs sm:text-sm shadow-[3px_3px_0px_#000000] w-full sm:w-auto">
-            <i data-lucide="play" class="w-4 h-4"></i>
-            <span>Duyệt Khung & Tạo Slide Thật (Chạy Ngầm SV)</span>
-          </button>
-        </div>
-
-        <div id="outline-slides-list" class="space-y-3">
-          <!-- Injected via JavaScript -->
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ========================================================= -->
-    <!-- TAB 2: TIẾN TRÌNH CHẠY NGẦM SERVER (ETA & TAB SWITCH SAFE)-->
-    <!-- ========================================================= -->
-    <div id="view-job-status" class="view-panel hidden space-y-5">
-      
-      <div class="neo-card p-5 sm:p-8 bg-white space-y-6 text-center">
-        
-        <div class="w-16 h-16 rounded-2xl bg-blue-100 border-2 border-black flex items-center justify-center text-blue-600 mx-auto shadow-[3px_3px_0px_#000000]">
-          <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-        </div>
-
-        <div class="space-y-2 max-w-lg mx-auto">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-black border border-black">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            TIẾN TRÌNH CHẠY NGẦM ĐANG HOẠT ĐỘNG
-          </div>
-          <h2 class="text-xl sm:text-2xl font-black text-slate-950">Máy Chủ Đang Xây Dựng Bộ Slide Hoàn Chỉnh</h2>
-          <p id="job-status-text" class="text-xs sm:text-sm text-slate-600 font-bold">
-            Phân tích dàn ý sư phạm & áp dụng cấu trúc bento...
+          <h3 class="font-black text-sm sm:text-base text-slate-900">Chat & Khung Dàn Ý</h3>
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            Tải ảnh chụp giáo án hoặc file văn bản. AI bóc tách mục tiêu, dàn ý chi tiết để thầy/cô chỉnh sửa trực tiếp trước khi sinh slide.
           </p>
         </div>
 
-        <!-- Progress Bar & ETA -->
-        <div class="max-w-md mx-auto space-y-2">
-          <div class="flex items-center justify-between text-xs font-black text-slate-700">
-            <span id="job-progress-percent">35%</span>
-            <span id="job-eta-display" class="text-blue-600">Ước tính: ~20 giây</span>
+        <!-- Feature 2 -->
+        <div class="neo-card p-4 sm:p-5 bg-white space-y-2">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-emerald-600 font-black">
+            <i data-lucide="server" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-black text-sm sm:text-base text-slate-900">Chạy Ngầm Server + ETA</h3>
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            Máy chủ Railway xử lý background độc lập có đồng hồ đếm ngược. Thầy/cô tự do chuyển tab, đọc báo mà không bao giờ gián đoạn.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="neo-card p-4 sm:p-5 bg-white space-y-2">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-purple-600 font-black">
+            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-black text-sm sm:text-base text-slate-900">Slide Thực Thụ Có Ảnh & SVG</h3>
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            Sơ đồ tam giác vuông SVG trực quan, thẻ bento công thức toán học, đổi font chữ, background và xuất file PowerPoint (.pptx).
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Template Starters -->
+      <div class="neo-card p-4 sm:p-6 bg-white space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
+            <i data-lucide="zap" class="w-4 h-4 text-blue-600"></i> Chủ Đề Mẫu Soạn Sẵn (Bấm 1 Chạm Để Tạo)
+          </h2>
+          <span class="text-[11px] font-bold text-slate-400 uppercase">Khám phá nhanh</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+          <!-- Quick 1 -->
+          <button onclick="quickStartTopic('Toán Hình Học 9: Khám Phá Tỉ Số Lượng Giác (Sin, Cos, Tan, Cot) với tam giác vuông')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
+            <span class="p-2 rounded-lg bg-blue-100 border border-black text-blue-700 shrink-0 font-black text-xs">📐</span>
+            <div class="space-y-0.5">
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Toán 9: Tỉ Số Lượng Giác & Tam Giác Vuông</h4>
+              <p class="text-[11px] text-slate-500 font-medium leading-tight">Gồm sơ đồ tam giác vuông SVG, công thức sin/cos/tan/cot và mẹo nhớ.</p>
+            </div>
+          </button>
+
+          <!-- Quick 2 -->
+          <button onclick="quickStartTopic('Toán 10: Bất Phương Trình Bậc Nhất Hai Ẩn và Biểu Diễn Miền Nghiệm Oxy')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
+            <span class="p-2 rounded-lg bg-emerald-100 border border-black text-emerald-700 shrink-0 font-black text-xs">📊</span>
+            <div class="space-y-0.5">
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Toán 10: Bất Phương Trình & Miền Nghiệm Oxy</h4>
+              <p class="text-[11px] text-slate-500 font-medium leading-tight">Mô phỏng mặt phẳng tọa độ Oxy, đường thẳng bờ và bài toán kinh tế.</p>
+            </div>
+          </button>
+
+          <!-- Quick 3 -->
+          <button onclick="quickStartTopic('Vật Lí 10: Ba Định Luật Newton Về Chuyển Động')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
+            <span class="p-2 rounded-lg bg-amber-100 border border-black text-amber-700 shrink-0 font-black text-xs">⚛️</span>
+            <div class="space-y-0.5">
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Vật Lí 10: Ba Định Luật Newton</h4>
+              <p class="text-[11px] text-slate-500 font-medium leading-tight">Quán tính, định luật II F=ma và phản lực định luật III trong đời sống.</p>
+            </div>
+          </button>
+
+          <!-- Quick 4 -->
+          <button onclick="quickStartTopic('Tin Học 11: Trí Tuệ Nhân Tạo (AI) Và Ứng Dụng Trong Cuộc Sống')" class="text-left p-3 rounded-xl border-2 border-black hover:bg-blue-50/60 transition-all flex items-start gap-3 group">
+            <span class="p-2 rounded-lg bg-purple-100 border border-black text-purple-700 shrink-0 font-black text-xs">🤖</span>
+            <div class="space-y-0.5">
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600">Tin Học: Trí Tuệ Nhân Tạo & Tương Lai</h4>
+              <p class="text-[11px] text-slate-500 font-medium leading-tight">Machine Learning, mạng nơ-ron, đạo đức AI và bài toán thực tế.</p>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: CHAT STUDIO & DUYỆT KHUNG DÀN Ý -->
+    <!-- ========================================== -->
+    <section id="view-chat" class="hidden space-y-4">
+      
+      <!-- Chat Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-5 h-5 text-blue-600"></i> AI Slide Studio
+          </h2>
+          <p class="text-xs text-slate-500 font-medium">Trò chuyện, tải tài liệu & tinh chỉnh khung dàn ý trước khi sinh slide</p>
+        </div>
+        <button onclick="resetConversation()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-700 text-xs font-bold" title="Tạo mới hội thoại">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Làm mới
+        </button>
+      </div>
+
+      <!-- Top Action: Duyệt Khung & Tạo Slide Thật (Hiển thị khi đã có dàn ý) -->
+      <div id="outline-actions-bar" class="hidden">
+        <button id="btn-approve-and-generate" onclick="startBackgroundJob()" class="w-full neo-btn py-3.5 bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-base font-black flex items-center justify-center gap-2">
+          <i data-lucide="play" class="w-5 h-5 fill-white"></i> Duyệt Khung & Tạo Slide Thật (Chạy Ngầm SV)
+        </button>
+      </div>
+
+      <!-- Chat Messages Container -->
+      <div id="chat-messages" class="space-y-3.5 min-h-[180px]">
+        <!-- Welcome Message -->
+        <div class="chat-bubble-ai p-4 sm:p-5 space-y-2 max-w-[92%]">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-blue-600 text-white text-xs font-black flex items-center justify-center">AI</span>
+            <span class="text-xs font-black text-slate-900">PPT Master Assistant</span>
+            <span class="text-[10px] text-slate-400 font-bold ml-auto">Vừa xong</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+            Xin chào thầy/cô! Em là trợ lý thiết kế slide sư phạm. Thầy/cô hãy nhập chủ đề bài giảng hoặc bấm nút <strong class="text-blue-600">[🖼️ Ảnh]</strong>, <strong class="text-blue-600">[📎 Tệp]</strong> để tải giáo án lên. Em sẽ phân tích và lập **khung dàn ý slide** trực quan ngay lập tức ạ!
+          </p>
+        </div>
+      </div>
+
+      <!-- Interactive Outline Inspector (Nếu đã sinh dàn ý) -->
+      <div id="outline-inspector-card" class="hidden neo-card p-4 sm:p-6 bg-white space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b-2 border-black">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-black uppercase">Khung Dàn Ý Tương Tác</span>
+            <h3 id="outline-deck-title" contenteditable="true" class="text-base sm:text-lg font-black text-slate-900 mt-1">Tiêu Đề Bài Giảng</h3>
+          </div>
+          <span id="outline-slide-count-badge" class="px-2.5 py-1 rounded-lg bg-blue-100 border border-black text-blue-900 text-xs font-black">
+            0 Slide
+          </span>
+        </div>
+
+        <p class="text-[11px] text-slate-500 font-semibold italic">
+          💡 Thầy/cô có thể bấm chuột trực tiếp vào bất kỳ dòng nào bên dưới để sửa chữ, hoặc chat với AI để điều chỉnh lại toàn bộ!
+        </p>
+
+        <!-- Slide List (Fixed Mobile Spacing & Layout) -->
+        <div id="outline-slides-list" class="space-y-3">
+          <!-- Dynamic Slide Cards Injected Here -->
+        </div>
+      </div>
+
+      <!-- File Attachment Pills -->
+      <div id="attachments-preview-bar" class="hidden flex flex-wrap gap-2 pt-1"></div>
+
+      <!-- Chat Input Box (Neo-brutalist Bo Tròn Viền Đen) -->
+      <div class="neo-card p-2 sm:p-3 bg-white space-y-2">
+        <textarea id="chat-input" rows="2" placeholder="Nhập yêu cầu, chỉnh sửa slide hoặc dán nội dung giáo án tại đây..." class="w-full neo-input p-3 text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 resize-none bg-slate-50"></textarea>
+
+        <div class="flex items-center justify-between gap-2 pt-1">
+          <!-- Upload Buttons -->
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <!-- Upload Images -->
+            <label class="neo-btn px-2.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold cursor-pointer">
+              <i data-lucide="image" class="w-4 h-4 text-blue-600"></i>
+              <span class="hidden sm:inline">Ảnh</span>
+              <input type="file" id="input-upload-image" accept="image/*" multiple class="hidden" onchange="handleFileUpload(event, 'image')">
+            </label>
+
+            <!-- Upload Docs -->
+            <label class="neo-btn px-2.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold cursor-pointer">
+              <i data-lucide="paperclip" class="w-4 h-4 text-emerald-600"></i>
+              <span class="hidden sm:inline">Tệp</span>
+              <input type="file" id="input-upload-file" accept=".txt,.md,.pdf,.docx,.doc" multiple class="hidden" onchange="handleFileUpload(event, 'file')">
+            </label>
           </div>
 
-          <div class="w-full h-4 rounded-full bg-slate-100 border-2 border-black overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
-            <div id="job-progress-bar" class="h-full bg-blue-600 rounded-full transition-all duration-300" style="width: 35%;"></div>
+          <!-- Send Button -->
+          <button id="btn-send-chat" onclick="sendChatMessage()" class="neo-btn px-4 sm:px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-black">
+            <span>Gửi Cho AI</span>
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: TIẾN TRÌNH CHẠY NGẦM SERVER CÓ ETA -->
+    <!-- ========================================== -->
+    <section id="view-job-status" class="hidden space-y-5">
+      <div class="neo-card p-5 sm:p-8 bg-white space-y-6 text-center">
+        
+        <!-- Top Status Pill -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 border-2 border-black shadow-[2px_2px_0px_#000]">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping"></span>
+          <span class="text-xs font-black text-emerald-950 uppercase tracking-wide">Tiến Trình Chạy Ngầm Đang Hoạt Động</span>
+        </div>
+
+        <!-- Centerpiece High-Tech Visual Graphic -->
+        <div class="relative w-40 h-28 sm:w-52 sm:h-36 mx-auto bg-slate-900 rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] overflow-hidden flex flex-col justify-between p-3 text-left">
+          <!-- Scanning Laser Line -->
+          <div class="absolute left-0 right-0 h-0.5 bg-blue-400 shadow-[0_0_8px_#38BDF8] animate-laser pointer-events-none"></div>
+
+          <!-- Slide Mockup Header -->
+          <div class="flex items-center justify-between">
+            <span class="w-10 h-2 rounded bg-blue-500/80"></span>
+            <div class="flex gap-1">
+              <span class="w-2 h-2 rounded-full bg-red-400"></span>
+              <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+            </div>
+          </div>
+
+          <!-- Slide Mockup Bento Grid Simulation -->
+          <div class="grid grid-cols-2 gap-1.5 my-auto">
+            <div class="h-6 rounded bg-blue-900/60 border border-blue-500/40 p-1 flex items-center">
+              <span class="w-6 h-1.5 rounded bg-blue-300"></span>
+            </div>
+            <div class="h-6 rounded bg-emerald-900/60 border border-emerald-500/40 p-1 flex items-center">
+              <span class="w-5 h-1.5 rounded bg-emerald-300"></span>
+            </div>
+            <div class="h-6 rounded bg-amber-900/60 border border-amber-500/40 p-1 flex items-center">
+              <span class="w-7 h-1.5 rounded bg-amber-300"></span>
+            </div>
+            <div class="h-6 rounded bg-purple-900/60 border border-purple-500/40 p-1 flex items-center">
+              <span class="w-6 h-1.5 rounded bg-purple-300"></span>
+            </div>
+          </div>
+
+          <!-- Slide Mockup Footer -->
+          <div class="w-16 h-1.5 rounded bg-slate-600"></div>
+        </div>
+
+        <!-- Main Title & Current Subtext -->
+        <div class="space-y-1.5">
+          <h2 class="text-xl sm:text-2xl font-black text-slate-950">Máy Chủ Đang Xây Dựng Bộ Slide Hoàn Chỉnh</h2>
+          <p id="job-stage-text" class="text-xs sm:text-sm font-semibold text-blue-600">Bóc tách mục tiêu kiến thức, năng lực & thiết kế bố cục...</p>
+        </div>
+
+        <!-- Progress Bar & Big ETA Badge -->
+        <div class="space-y-2 max-w-lg mx-auto">
+          <div class="flex items-center justify-between text-xs sm:text-sm font-black">
+            <span id="job-progress-percent" class="text-slate-900 text-base font-black">20%</span>
+            <span id="job-eta-countdown" class="text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg border border-black/10 font-black">Ước tính: ~16 giây</span>
+          </div>
+          
+          <div class="w-full h-3.5 bg-slate-100 rounded-full border-2 border-black overflow-hidden p-0.5">
+            <div id="job-progress-bar" class="h-full bg-blue-600 rounded-full transition-all duration-300 ease-out" style="width: 20%;"></div>
           </div>
         </div>
 
-        <!-- REASSURANCE BANNER (CHUYỂN TAB THOẢI MÁI) -->
-        <div class="p-4 rounded-xl bg-blue-50 border-2 border-black max-w-lg mx-auto flex items-start gap-3 text-left shadow-[2px_2px_0px_#000000]">
-          <div class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 mt-0.5">
-            <i data-lucide="shield-check" class="w-4 h-4"></i>
+        <!-- 5-Step Pipeline Timeline -->
+        <div class="max-w-md mx-auto text-left space-y-2 pt-2 border-t border-black/10">
+          <div id="pipe-step-1" class="flex items-center justify-between p-2 rounded-xl bg-blue-50 border border-black/15 text-xs font-bold">
+            <span class="flex items-center gap-2">🔍 1. Bóc tách Dàn ý Sư phạm & Kiến thức</span>
+            <span class="step-badge text-[10px] px-2 py-0.5 rounded-full bg-blue-600 text-white font-extrabold">Đang chạy</span>
           </div>
-          <div class="space-y-0.5 text-xs font-semibold text-slate-700">
-            <div class="font-black text-slate-950">Yên tâm chuyển tab hoặc làm việc khác!</div>
-            <p class="leading-relaxed">
-              Mọi tác vụ tạo slide đều được tính toán 100% trên máy chủ. Thầy/cô có thể chuyển sang tab khác đọc báo hoặc soạn bài, tiến trình không bao giờ bị gián đoạn.
+
+          <div id="pipe-step-2" class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-black/10 text-xs font-bold text-slate-500">
+            <span class="flex items-center gap-2">📐 2. Bố cục Bento & Dựng Hình Đồ Họa Vector</span>
+            <span class="step-badge text-[10px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-extrabold">Chờ</span>
+          </div>
+
+          <div id="pipe-step-3" class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-black/10 text-xs font-bold text-slate-500">
+            <span class="flex items-center gap-2">🎨 3. Phối Màu Palette, Gradients & Typography</span>
+            <span class="step-badge text-[10px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-extrabold">Chờ</span>
+          </div>
+
+          <div id="pipe-step-4" class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-black/10 text-xs font-bold text-slate-500">
+            <span class="flex items-center gap-2">🖼️ 4. Sơ đồ Tam giác/Đồ thị & Hình Ảnh Trực quan</span>
+            <span class="step-badge text-[10px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-extrabold">Chờ</span>
+          </div>
+
+          <div id="pipe-step-5" class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-black/10 text-xs font-bold text-slate-500">
+            <span class="flex items-center gap-2">📦 5. Kết xuất Slide Canvas & Tệp PowerPoint (.pptx)</span>
+            <span class="step-badge text-[10px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-extrabold">Chờ</span>
+          </div>
+        </div>
+
+        <!-- Tab Switch Reassurance Card -->
+        <div class="neo-card p-4 bg-blue-50/80 border-2 border-black text-left flex items-start gap-3">
+          <div class="p-2 rounded-xl bg-blue-600 text-white shrink-0 mt-0.5">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div class="space-y-1">
+            <h4 class="text-xs sm:text-sm font-black text-slate-900">Yên tâm chuyển tab hoặc làm việc khác!</h4>
+            <p class="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed">
+              Mọi tác vụ tạo slide đều được tính toán 100% trên máy chủ Railway. Thầy/cô có thể chuyển sang tab khác đọc báo hoặc soạn bài, tiến trình không bao giờ bị gián đoạn.
             </p>
           </div>
         </div>
 
+        <!-- Success Action (Hidden until 100%) -->
+        <div id="job-completed-action-bar" class="hidden pt-2">
+          <button onclick="openCanvasFromJobResult()" class="w-full neo-btn py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-base font-black shadow-[3px_3px_0px_#000]">
+            <i data-lucide="sparkles" class="w-5 h-5"></i> Mở Slide Canvas Ngay Bây Giờ
+          </button>
+        </div>
+
       </div>
+    </section>
 
-    </div>
-
-    <!-- ========================================================= -->
-    <!-- TAB 3: CANVAS SLIDE THỰC THỤ (CHỈNH SỬA ELEMENTS & BG)    -->
-    <!-- ========================================================= -->
-    <div id="view-canvas" class="view-panel hidden space-y-4">
+    <!-- ========================================== -->
+    <!-- VIEW 4: SLIDE CANVAS STUDIO (MỞ TỪ QUẢN LÝ) -->
+    <!-- ========================================== -->
+    <section id="view-canvas" class="hidden space-y-4">
       
-      <!-- Top Action & Toolbar -->
-      <div class="neo-card p-4 bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-black">SLIDE THỰC THỤ</span>
-            <span id="canvas-deck-meta" class="text-xs font-bold text-slate-500">Toán 10 • 8 Slide</span>
+      <!-- Top Studio Toolbar -->
+      <div class="neo-card p-3 sm:p-4 bg-white flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2">
+          <button onclick="closeCanvasStudio()" class="neo-btn px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-black">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Quay Lại
+          </button>
+          <div class="truncate">
+            <h3 id="canvas-deck-title" contenteditable="true" class="text-xs sm:text-sm font-black text-slate-900 truncate">Tiêu Đề Slide Deck</h3>
+            <span id="canvas-slide-counter-badge" class="text-[11px] font-bold text-blue-600">Trang 1 / 1</span>
           </div>
-          <h2 id="canvas-deck-title" class="text-base sm:text-lg font-black text-slate-950 mt-0.5">BẤT PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN</h2>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          <!-- Background Picker Dropdown -->
-          <div class="relative flex-1 sm:flex-none">
-            <button onclick="toggleBgMenu()" class="neo-btn neo-btn-white px-3 py-2 text-xs w-full">
-              <i data-lucide="palette" class="w-3.5 h-3.5 text-blue-600"></i>
-              <span>Đổi Nền</span>
-            </button>
-            <div id="bg-menu" class="hidden absolute top-full left-0 mt-1 p-2 bg-white border-2 border-black rounded-xl shadow-lg z-30 flex gap-1.5">
-              <button onclick="changeCurrentBg('#FFFFFF')" class="w-6 h-6 rounded-md bg-white border border-black" title="Trắng"></button>
-              <button onclick="changeCurrentBg('#EFF6FF')" class="w-6 h-6 rounded-md bg-blue-50 border border-black" title="Xanh nhạt"></button>
-              <button onclick="changeCurrentBg('#F8FAFC')" class="w-6 h-6 rounded-md bg-slate-50 border border-black" title="Xám nhạt"></button>
-              <button onclick="changeCurrentBg('#FEF2F2')" class="w-6 h-6 rounded-md bg-red-50 border border-black" title="Đỏ nhạt"></button>
-              <button onclick="changeCurrentBg('#F0FDF4')" class="w-6 h-6 rounded-md bg-emerald-50 border border-black" title="Xanh lá nhạt"></button>
-            </div>
-          </div>
-
-          <button onclick="addNewElementToSlide()" class="neo-btn neo-btn-white flex-1 sm:flex-none px-3 py-2 text-xs">
-            <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-blue-600"></i>
-            <span>Thêm Mục</span>
+        <!-- Action Controls -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <!-- Background Picker -->
+          <button onclick="cycleBackground()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Đổi màu nền slide">
+            <i data-lucide="palette" class="w-3.5 h-3.5 text-blue-600"></i> Nền
           </button>
 
-          <button onclick="openFullscreenPresentation()" class="neo-btn neo-btn-white flex-1 sm:flex-none px-3 py-2 text-xs">
-            <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-blue-600"></i>
-            <span>Trình Chiếu</span>
+          <!-- Font Switcher -->
+          <button onclick="cycleFontFamily()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Đổi font chữ">
+            <i data-lucide="type" class="w-3.5 h-3.5 text-purple-600"></i> <span id="current-font-name">Jakarta</span>
           </button>
 
-          <button onclick="downloadCurrentPptxFile()" class="neo-btn neo-btn-primary flex-1 sm:flex-none px-4 py-2 text-xs">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Tải .PPTX</span>
+          <!-- Add Element -->
+          <button onclick="addSlideElement()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Thêm thẻ nội dung">
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Thêm Mục
+          </button>
+
+          <!-- Presentation Mode -->
+          <button onclick="enterFullscreenPresentation()" class="neo-btn px-2.5 py-1.5 bg-white text-slate-800 text-xs font-bold" title="Trình chiếu toàn màn hình">
+            <i data-lucide="maximize" class="w-3.5 h-3.5 text-indigo-600"></i> Chiếu
+          </button>
+
+          <!-- Download PPTX -->
+          <button onclick="exportCurrentDeckPptx()" class="neo-btn px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i> Tải .PPTX
           </button>
         </div>
       </div>
 
-      <!-- Interactive Slide Canvas Board -->
-      <div class="neo-card p-4 sm:p-7 bg-white">
+      <!-- MAIN SLIDE CANVAS (16:9 RATIO) -->
+      <div class="neo-card p-3 sm:p-5 bg-white space-y-3">
         
-        <div class="flex items-center justify-between pb-3 border-b-2 border-black/10 text-xs font-bold text-slate-500 mb-3">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
-            <span class="text-[11px] font-extrabold uppercase">CANVAS SLIDE TƯƠNG TÁC (CHỈNH SỬA TRỰC TIẾP)</span>
+        <!-- The Actual Presentation Slide -->
+        <div id="slide-stage" class="w-full aspect-[16/9] min-h-[340px] sm:min-h-[480px] rounded-2xl border-2 border-black p-4 sm:p-7 relative overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-[inset_0_0_12px_rgba(0,0,0,0.03)] font-jakarta">
+          <!-- Injected Dynamically by renderCurrentSlide() -->
+        </div>
+
+        <!-- Speaker Notes Box (Editable) -->
+        <div class="p-3 sm:p-4 rounded-xl bg-slate-50 border-2 border-black/15 text-xs text-slate-700 font-medium space-y-1">
+          <div class="flex items-center gap-1.5 text-blue-600 font-black">
+            <i data-lucide="mic" class="w-3.5 h-3.5"></i>
+            <span>Lời Giảng Giáo Viên (Ghi chú diễn giả):</span>
           </div>
-          <span id="canvas-page-indicator" class="text-[11px] font-black bg-slate-100 px-2.5 py-0.5 rounded border border-black/30">Trang 1 / 8</span>
+          <div id="slide-speaker-notes" contenteditable="true" class="leading-relaxed text-slate-800">
+            Chào các em học sinh. Hôm nay chúng ta sẽ bước vào chuyên đề mới...
+          </div>
         </div>
 
-        <!-- The 16:9 Canvas Slide Element Container -->
-        <div id="interactive-slide-canvas" class="min-h-[320px] sm:aspect-16-9 w-full rounded-2xl border-2 border-black p-5 sm:p-9 flex flex-col justify-between relative shadow-[inset_0_2px_4px_rgba(0,0,0,0.03)] transition-colors duration-200">
-          <!-- Dynamic Slide Elements Injected by JavaScript -->
-        </div>
-
-        <!-- Slide Thumbnails & Flip Controls -->
-        <div class="flex items-center justify-between pt-4 mt-3 border-t-2 border-black/10">
-          <button onclick="canvasPrevSlide()" class="neo-btn neo-btn-white px-3.5 py-2 text-xs">
-            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-            <span>Trước</span>
+        <!-- Slide Navigation Controls -->
+        <div class="flex items-center justify-between gap-2 pt-2 border-t border-black/10">
+          <button onclick="prevSlide()" class="neo-btn px-4 py-2 bg-white text-slate-900 text-xs font-black">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i> Trước
           </button>
 
-          <div id="canvas-thumbnails-strip" class="flex items-center gap-1.5 overflow-x-auto max-w-[200px] sm:max-w-md px-1">
-            <!-- Thumbnails injected via JS -->
+          <div id="slide-dots-pagination" class="flex flex-wrap items-center justify-center gap-1 max-w-[240px] sm:max-w-md overflow-x-auto py-1">
+            <!-- Injected dots -->
           </div>
 
-          <button onclick="canvasNextSlide()" class="neo-btn neo-btn-primary px-3.5 py-2 text-xs">
-            <span>Tiếp</span>
-            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          <button onclick="nextSlide()" class="neo-btn px-4 py-2 bg-blue-600 text-white text-xs font-black">
+            Tiếp <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </button>
         </div>
 
       </div>
+    </section>
 
-    </div>
-
-    <!-- ========================================================= -->
-    <!-- TAB 4: THƯ VIỆN BÀI GIẢNG (QUẢN LÝ)                       -->
-    <!-- ========================================================= -->
-    <div id="view-library" class="view-panel hidden space-y-4">
-      
-      <div class="flex items-center justify-between pt-1">
+    <!-- ========================================== -->
+    <!-- VIEW 5: QUẢN LÝ THƯ VIỆN BÀI GIẢNG -->
+    <!-- ========================================== -->
+    <section id="view-library" class="hidden space-y-4">
+      <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-lg sm:text-xl font-black text-slate-950 flex items-center gap-2">
-            <i data-lucide="folder-kanban" class="w-5 h-5 text-blue-600"></i>
-            Thư Viện Bài Giảng Đã Lưu
+          <h2 class="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2">
+            <i data-lucide="folder-kanban" class="w-5 h-5 text-blue-600"></i> Thư Viện Slide Đã Tạo
           </h2>
-          <p class="text-xs text-slate-500 font-medium">Toàn bộ các bộ slide thực thụ do AI tạo ra trên máy chủ.</p>
+          <p class="text-xs text-slate-500 font-medium">Bấm vào bất kỳ bài giảng nào để mở Canvas chỉnh sửa hoặc tải về</p>
         </div>
-
-        <button onclick="switchTab('chat')" class="neo-btn neo-btn-primary px-3.5 py-2 text-xs shadow-[2px_2px_0px_#000000]">
-          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-          <span>Tạo Bài Mới</span>
+        <button onclick="switchTab('tab-chat')" class="neo-btn px-3 py-1.5 bg-blue-600 text-white text-xs font-black">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tạo Thêm
         </button>
       </div>
 
-      <div id="library-decks-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <!-- Decks injected via JS -->
+      <!-- Library Deck Cards Container -->
+      <div id="library-decks-list" class="space-y-3">
+        <!-- Rendered by loadLibraryDecks() -->
       </div>
-
-    </div>
+    </section>
 
   </main>
 
-  <!-- ========================================================= -->
-  <!-- FLOATING BOTTOM DOCK NAVIGATION                           -->
-  <!-- ========================================================= -->
-  <nav class="fixed bottom-3 left-4 right-4 sm:left-auto sm:right-auto sm:w-[480px] sm:left-1/2 sm:-translate-x-1/2 z-50">
-    <div class="bottom-dock p-1.5 flex items-center justify-between gap-1.5">
-      
-      <button id="dock-btn-chat" onclick="switchTab('chat')" class="dock-tab active flex-1 py-2.5 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-1.5">
-        <i data-lucide="message-square" class="w-4 h-4"></i>
+  <!-- ========================================== -->
+  <!-- FLOATING BOTTOM DOCK (CHỈ 3 TAB THEO YÊU CẦU) -->
+  <!-- ========================================== -->
+  <nav class="dock-container">
+    <div class="dock-bar">
+      <!-- Tab 1: Trang Chủ -->
+      <button id="tab-home" onclick="switchTab('tab-home')" class="dock-tab active">
+        <i data-lucide="home" class="w-4 h-4"></i>
+        <span>Trang Chủ</span>
+      </button>
+
+      <!-- Tab 2: Chat Studio -->
+      <button id="tab-chat" onclick="switchTab('tab-chat')" class="dock-tab">
+        <i data-lucide="messages-square" class="w-4 h-4"></i>
         <span>Chat Tạo</span>
       </button>
 
-      <button id="dock-btn-canvas" onclick="switchTab('canvas')" class="dock-tab flex-1 py-2.5 px-3 rounded-xl font-black text-xs text-slate-700 hover:text-black flex items-center justify-center gap-1.5">
-        <i data-lucide="layout" class="w-4 h-4"></i>
-        <span>Slide Canvas</span>
-      </button>
-
-      <button id="dock-btn-library" onclick="switchTab('library')" class="dock-tab flex-1 py-2.5 px-3 rounded-xl font-black text-xs text-slate-700 hover:text-black flex items-center justify-center gap-1.5 relative">
+      <!-- Tab 3: Quản Lý -->
+      <button id="tab-library" onclick="switchTab('tab-library')" class="dock-tab">
         <i data-lucide="folder-kanban" class="w-4 h-4"></i>
         <span>Quản Lý</span>
-        <span id="library-badge-count" class="bg-blue-600 text-white text-[10px] font-black px-1.5 py-0.2 rounded-full border border-black/30">0</span>
+        <span id="badge-library-count" class="w-4 h-4 rounded-full bg-slate-200 text-slate-800 text-[10px] font-black flex items-center justify-center">0</span>
       </button>
-
     </div>
   </nav>
 
-  <!-- ================= FULLSCREEN PRESENTATION MODAL ================= -->
-  <div id="fullscreen-presentation-modal" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md hidden flex flex-col justify-between p-3 sm:p-6">
-    <div class="flex items-center justify-between max-w-5xl w-full mx-auto pb-3 border-b border-white/20">
-      <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-ping"></span>
-        <span id="pres-modal-title" class="text-white font-extrabold text-xs sm:text-base tracking-tight truncate max-w-xs sm:max-w-md">BÀI GIẢNG</span>
-      </div>
-      <div class="flex items-center gap-3">
-        <span id="pres-modal-indicator" class="text-xs font-bold text-slate-400">1 / 8</span>
-        <button onclick="closeFullscreenPresentation()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/20 transition">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="flex-1 flex items-center justify-center my-3">
-      <div id="pres-modal-canvas" class="w-full max-w-4xl sm:aspect-16-9 min-h-[320px] rounded-2xl bg-white border-2 border-black p-5 sm:p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-        <!-- Rendered presentation slide -->
-      </div>
-    </div>
-
-    <div class="flex items-center justify-between max-w-5xl w-full mx-auto pt-3 border-t border-white/20">
-      <span class="text-xs text-slate-400 hidden sm:inline">Nhấn [←] [→] hoặc [Space] để chuyển slide</span>
-      <div class="flex items-center gap-2.5 mx-auto sm:mx-0">
-        <button onclick="canvasPrevSlide()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition">← Trước</button>
-        <button onclick="canvasNextSlide()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-600/30 transition">Tiếp →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= JAVASCRIPT STUDIO ENGINE ================= -->
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT APPLICATION CORE -->
+  <!-- ========================================== -->
   <script>
-    // App State
-    let currentTab = 'chat';
-    let chatHistory = [];
-    let attachedFiles = [];
+    // State Store
+    let currentTab = 'tab-home';
     let currentOutline = null;
-    let activeJobId = null;
-    let jobPollInterval = null;
     let currentDeck = null;
     let currentSlideIdx = 0;
-    let savedDecksList = [];
+    let savedDecks = [];
+    let chatHistory = [];
+    let uploadedAttachments = [];
+    let activeJobPollInterval = null;
 
-    document.addEventListener('DOMContentLoaded', async () => {
+    // Font families
+    const FONT_PRESETS = [
+      { id: 'font-jakarta', name: 'Jakarta', css: 'font-jakarta' },
+      { id: 'font-playfair', name: 'Playfair', css: 'font-playfair' },
+      { id: 'font-space', name: 'Space', css: 'font-space' },
+      { id: 'font-outfit', name: 'Outfit', css: 'font-outfit' }
+    ];
+    let currentFontIdx = 0;
+
+    // Background themes
+    const BACKGROUND_PRESETS = [
+      { name: 'Trắng', bg: '#FFFFFF', textDark: true },
+      { name: 'Xanh Nhạt', bg: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)', textDark: true },
+      { name: 'Slate Tối Giản', bg: '#F8FAFC', textDark: true },
+      { name: 'Kem Ấm', bg: '#FFFBEB', textDark: true },
+      { name: 'Xanh Ngọc', bg: '#ECFDF5', textDark: true },
+      { name: 'Dark Keynote', bg: '#0F172A', textDark: false }
+    ];
+    let currentBgIdx = 0;
+
+    // Initialize Application
+    document.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
-      setupKeyboardControls();
-      await fetchSavedDecks();
-
-      // Entrance animation for chat tab
-      gsap.fromTo('#view-chat', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out' });
+      fetchDecksLibrary();
     });
 
-    function setupKeyboardControls() {
-      window.addEventListener('keydown', (e) => {
-        if (currentTab === 'canvas' || !document.getElementById('fullscreen-presentation-modal').classList.contains('hidden')) {
-          if (e.key === 'ArrowRight' || e.key === ' ') canvasNextSlide();
-          if (e.key === 'ArrowLeft') canvasPrevSlide();
-          if (e.key === 'Escape') closeFullscreenPresentation();
-        }
-      });
-    }
-
-    // GSAP Tab Navigation
+    // ==========================================
+    // TAB NAVIGATION
+    // ==========================================
     function switchTab(tabId) {
-      if (currentTab === tabId) return;
+      currentTab = tabId;
 
-      const currentView = document.getElementById('view-' + currentTab);
-      const targetView = document.getElementById('view-' + tabId);
+      // Update Dock Tabs UI
+      document.querySelectorAll('.dock-tab').forEach(t => t.classList.remove('active'));
+      const activeBtn = document.getElementById(tabId);
+      if (activeBtn) activeBtn.classList.add('active');
 
-      // Dock buttons styling with bounce
-      ['chat', 'canvas', 'library'].forEach(t => {
-        const btn = document.getElementById('dock-btn-' + t);
-        if (t === tabId) {
-          btn.className = "dock-tab active flex-1 py-2.5 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-1.5";
-          gsap.fromTo(btn, { scale: 0.92 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
-        } else {
-          btn.className = "dock-tab flex-1 py-2.5 px-3 rounded-xl font-black text-xs text-slate-700 hover:text-black flex items-center justify-center gap-1.5";
-        }
+      // Hide all main views
+      const views = ['view-home', 'view-chat', 'view-job-status', 'view-canvas', 'view-library'];
+      views.forEach(v => {
+        const el = document.getElementById(v);
+        if (el) el.classList.add('hidden');
       });
 
-      const tl = gsap.timeline();
-      tl.to(currentView, {
-        opacity: 0,
-        y: -10,
-        duration: 0.15,
-        ease: 'power2.in',
-        onComplete: () => {
-          currentView.classList.add('hidden');
-          targetView.classList.remove('hidden');
-          currentTab = tabId;
-          gsap.fromTo(targetView, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out' });
-          lucide.createIcons();
-        }
-      });
+      // Show target view
+      let targetView = 'view-home';
+      if (tabId === 'tab-chat') targetView = 'view-chat';
+      if (tabId === 'tab-library') {
+        targetView = 'view-library';
+        fetchDecksLibrary();
+      }
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const viewEl = document.getElementById(targetView);
+      if (viewEl) {
+        viewEl.classList.remove('hidden');
+        gsap.fromTo(viewEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' });
+      }
+
+      lucide.createIcons();
     }
 
-    function quickFillPrompt(text) {
-      document.getElementById('chat-input').value = text;
-      document.getElementById('chat-input').focus();
-      gsap.fromTo('#chat-input', { backgroundColor: '#EFF6FF' }, { backgroundColor: '#FFFFFF', duration: 0.6 });
+    // ==========================================
+    // HOME VIEW HELPERS
+    // ==========================================
+    function quickStartTopic(topicText) {
+      switchTab('tab-chat');
+      const inputEl = document.getElementById('chat-input');
+      inputEl.value = `Hãy lập dàn ý bài giảng chi tiết cho chủ đề: ${topicText}`;
+      sendChatMessage();
     }
 
-    // File & Image Attachment Handlers
-    async function handleFileSelected(event, type) {
+    // ==========================================
+    // FILE & IMAGE UPLOAD
+    // ==========================================
+    async function handleFileUpload(event, type) {
       const files = event.target.files;
       if (!files || files.length === 0) return;
 
@@ -581,232 +755,205 @@
       }
 
       try {
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData
-        });
+        const res = await fetch('/api/upload', { method: 'POST', body: formData });
         const data = await res.json();
         if (data.success && data.files) {
-          attachedFiles.push(...data.files);
-          renderAttachmentsTray();
+          uploadedAttachments.push(...data.files);
+          renderAttachmentPills();
+          appendChatAiMessage(`Đã tải lên thành công ${data.files.length} tệp: ${data.files.map(f => f.originalName).join(', ')}. Thầy/cô có thể bấm "Gửi Cho AI" để phân tích ngay ạ!`);
         }
       } catch (err) {
         alert('Lỗi tải tệp: ' + err.message);
       }
-      event.target.value = '';
     }
 
-    function renderAttachmentsTray() {
-      const tray = document.getElementById('attachments-tray');
-      if (attachedFiles.length === 0) {
-        tray.classList.add('hidden');
-        tray.innerHTML = '';
+    function renderAttachmentPills() {
+      const bar = document.getElementById('attachments-preview-bar');
+      if (uploadedAttachments.length === 0) {
+        bar.classList.add('hidden');
         return;
       }
-      tray.classList.remove('hidden');
-      tray.innerHTML = attachedFiles.map((file, idx) => `
-        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 border border-black text-xs font-bold text-slate-800 shadow-[1px_1px_0px_#000000]">
-          <i data-lucide="${file.mimetype.startsWith('image') ? 'image' : 'file-text'}" class="w-3.5 h-3.5 text-blue-600"></i>
-          <span class="max-w-[120px] truncate">${file.originalName}</span>
-          <button type="button" onclick="removeAttachment(${idx})" class="w-4 h-4 rounded hover:bg-red-200 text-slate-500 hover:text-red-700 flex items-center justify-center font-bold">×</button>
-        </div>
+      bar.classList.remove('hidden');
+      bar.innerHTML = uploadedAttachments.map((a, i) => `
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 border border-black text-xs font-bold text-slate-800">
+          ${a.mimetype.includes('image') ? '🖼️' : '📎'} ${a.originalName}
+          <button onclick="removeAttachment(${i})" class="text-red-500 font-black ml-1">×</button>
+        </span>
       `).join('');
-      lucide.createIcons();
     }
 
     function removeAttachment(idx) {
-      attachedFiles.splice(idx, 1);
-      renderAttachmentsTray();
+      uploadedAttachments.splice(idx, 1);
+      renderAttachmentPills();
     }
 
-    // Chat AI Sender
-    async function handleSendChat(e) {
-      e.preventDefault();
-      const input = document.getElementById('chat-input');
-      const text = input.value.trim();
-      if (!text && attachedFiles.length === 0) return;
+    // ==========================================
+    // CHAT & OUTLINE INTERACTION
+    // ==========================================
+    async function sendChatMessage() {
+      const inputEl = document.getElementById('chat-input');
+      const text = inputEl.value.trim();
+      if (!text && uploadedAttachments.length === 0) return;
 
-      // Append User Message to UI
-      appendMessageToChat('user', text, attachedFiles);
-      input.value = '';
+      // Append User message
+      appendChatUserMessage(text || 'Phân tích tệp đính kèm');
+      inputEl.value = '';
 
-      const sendBtn = document.getElementById('btn-send-chat');
-      sendBtn.disabled = true;
-      sendBtn.classList.add('opacity-50');
+      // Prepare request
+      const payload = {
+        message: text,
+        history: chatHistory,
+        currentOutline: currentOutline,
+        attachments: uploadedAttachments
+      };
 
-      // Bot Typing Bubble
-      const typingId = 'typing-' + Date.now();
-      appendTypingIndicator(typingId);
+      // Show typing indicator
+      const typingEl = appendTypingIndicator();
 
       try {
-        const payload = {
-          message: text,
-          history: chatHistory,
-          currentOutline: currentOutline,
-          attachments: attachedFiles
-        };
-
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
         const data = await res.json();
-        removeTypingIndicator(typingId);
 
-        if (!data.success) {
-          throw new Error(data.error || 'Lỗi xử lý AI.');
+        typingEl.remove();
+
+        if (data.success) {
+          appendChatAiMessage(data.reply);
+          chatHistory.push({ role: 'user', content: text });
+          chatHistory.push({ role: 'assistant', content: data.reply });
+
+          if (data.outline) {
+            currentOutline = data.outline;
+            renderOutlineInspector(data.outline);
+          }
+        } else {
+          appendChatAiMessage('Có lỗi xảy ra: ' + (data.error || 'Vui lòng thử lại.'));
         }
-
-        // Store in chat history
-        chatHistory.push({ role: 'user', content: text });
-        chatHistory.push({ role: 'assistant', content: data.reply });
-
-        // Append Bot Reply
-        appendMessageToChat('assistant', data.reply);
-
-        // Update Outline Inspector
-        if (data.outline) {
-          currentOutline = data.outline;
-          renderOutlineInspector();
-        }
-
-        attachedFiles = [];
-        renderAttachmentsTray();
-
       } catch (err) {
-        removeTypingIndicator(typingId);
-        appendMessageToChat('assistant', '⚠️ Đã xảy ra lỗi: ' + err.message);
-      } finally {
-        sendBtn.disabled = false;
-        sendBtn.classList.remove('opacity-50');
+        typingEl.remove();
+        appendChatAiMessage('Không thể kết nối đến máy chủ: ' + err.message);
       }
     }
 
-    function appendMessageToChat(role, text, files = []) {
+    function appendChatUserMessage(text) {
       const container = document.getElementById('chat-messages');
       const div = document.createElement('div');
-      div.className = `flex items-start gap-3 ${role === 'user' ? 'justify-end' : ''} message-bubble`;
-
-      let filesHtml = '';
-      if (files && files.length > 0) {
-        filesHtml = `<div class="flex flex-wrap gap-1.5 mb-2">` + files.map(f => `
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-blue-100 text-blue-900 text-[10px] font-black border border-black/30">
-            📎 ${f.originalName}
-          </span>
-        `).join('') + '</div>';
-      }
-
-      if (role === 'user') {
-        div.innerHTML = `
-          <div class="space-y-1 max-w-xl text-right">
-            ${filesHtml}
-            <div class="p-3.5 rounded-2xl bg-blue-600 text-white border-2 border-black text-xs font-semibold leading-relaxed shadow-[2px_2px_0px_#000000] text-left">
-              ${text}
-            </div>
-          </div>
-          <div class="w-8 h-8 rounded-xl bg-slate-900 border-2 border-black flex items-center justify-center text-white shrink-0 shadow-[1.5px_1.5px_0px_#000000]">
-            <i data-lucide="user" class="w-4 h-4"></i>
-          </div>
-        `;
-      } else {
-        div.innerHTML = `
-          <div class="w-8 h-8 rounded-xl bg-blue-600 border-2 border-black flex items-center justify-center text-white shrink-0 shadow-[1.5px_1.5px_0px_#000000]">
-            <i data-lucide="bot" class="w-4 h-4"></i>
-          </div>
-          <div class="space-y-2 max-w-xl">
-            <div class="p-3.5 rounded-2xl bg-slate-50 border-2 border-black text-xs font-semibold text-slate-800 leading-relaxed shadow-[2px_2px_0px_#000000]">
-              ${text}
-            </div>
-          </div>
-        `;
-      }
-
+      div.className = 'chat-bubble-user p-3.5 sm:p-4 ml-auto max-w-[88%] text-xs sm:text-sm font-semibold space-y-1';
+      div.innerHTML = `<p class="leading-relaxed whitespace-pre-wrap">${escapeHtml(text)}</p>`;
       container.appendChild(div);
       div.scrollIntoView({ behavior: 'smooth' });
-      lucide.createIcons();
-      gsap.from(div, { opacity: 0, y: 10, duration: 0.25, ease: 'power2.out' });
     }
 
-    function appendTypingIndicator(id) {
+    function appendChatAiMessage(text) {
       const container = document.getElementById('chat-messages');
       const div = document.createElement('div');
-      div.id = id;
-      div.className = "flex items-start gap-3 message-bubble";
+      div.className = 'chat-bubble-ai p-4 sm:p-5 max-w-[92%] space-y-2';
       div.innerHTML = `
-        <div class="w-8 h-8 rounded-xl bg-blue-600 border-2 border-black flex items-center justify-center text-white shrink-0">
-          <i data-lucide="bot" class="w-4 h-4"></i>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-lg bg-blue-600 text-white text-xs font-black flex items-center justify-center">AI</span>
+          <span class="text-xs font-black text-slate-900">PPT Master Assistant</span>
         </div>
-        <div class="p-3 rounded-2xl bg-slate-50 border-2 border-black flex items-center gap-1.5 shadow-[2px_2px_0px_#000000]">
-          <span class="w-2 h-2 rounded-full bg-blue-600 animate-bounce"></span>
-          <span class="w-2 h-2 rounded-full bg-blue-600 animate-bounce [animation-delay:0.2s]"></span>
-          <span class="w-2 h-2 rounded-full bg-blue-600 animate-bounce [animation-delay:0.4s]"></span>
-        </div>
+        <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed whitespace-pre-wrap">${escapeHtml(text)}</p>
       `;
       container.appendChild(div);
       div.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function removeTypingIndicator(id) {
-      const el = document.getElementById(id);
-      if (el) el.remove();
+    function appendTypingIndicator() {
+      const container = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = 'chat-bubble-ai p-3 max-w-[200px] flex items-center gap-2 text-xs font-bold text-slate-500';
+      div.innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
+        <span>AI đang suy nghĩ...</span>
+      `;
+      container.appendChild(div);
+      div.scrollIntoView({ behavior: 'smooth' });
+      return div;
     }
 
-    // Render Outline Inspector Card
-    function renderOutlineInspector() {
-      if (!currentOutline) return;
-      const card = document.getElementById('outline-inspector-card');
-      card.classList.remove('hidden');
-
-      const list = document.getElementById('outline-slides-list');
-      list.innerHTML = (currentOutline.slides || []).map((s, idx) => `
-        <div class="p-3 rounded-xl bg-slate-50 border-2 border-black space-y-2 shadow-[2px_2px_0px_#000000]">
-          <div class="flex items-center justify-between">
+    function resetConversation() {
+      if (confirm('Làm mới lại cuộc trò chuyện và dàn ý hiện tại?')) {
+        chatHistory = [];
+        currentOutline = null;
+        uploadedAttachments = [];
+        renderAttachmentPills();
+        document.getElementById('outline-inspector-card').classList.add('hidden');
+        document.getElementById('outline-actions-bar').classList.add('hidden');
+        const container = document.getElementById('chat-messages');
+        container.innerHTML = `
+          <div class="chat-bubble-ai p-4 sm:p-5 space-y-2 max-w-[92%]">
             <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black border border-black/40">Slide ${idx + 1}</span>
-              <span class="text-xs font-black text-slate-900" contenteditable="true" onblur="updateOutlineSlideTitle(${idx}, this.innerText)">${s.title}</span>
+              <span class="w-6 h-6 rounded-lg bg-blue-600 text-white text-xs font-black flex items-center justify-center">AI</span>
+              <span class="text-xs font-black text-slate-900">PPT Master Assistant</span>
             </div>
-            <span class="text-[10px] font-bold text-slate-400 uppercase">${s.badge || 'Nội dung'}</span>
+            <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+              Cuộc trò chuyện đã được làm mới. Thầy/cô hãy nhập chủ đề hoặc tải tệp lên để bắt đầu lại nhé!
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    // ==========================================
+    // RENDER OUTLINE INSPECTOR (FIXED MOBILE TEXT)
+    // ==========================================
+    function renderOutlineInspector(outline) {
+      const inspector = document.getElementById('outline-inspector-card');
+      const actionsBar = document.getElementById('outline-actions-bar');
+      inspector.classList.remove('hidden');
+      actionsBar.classList.remove('hidden');
+
+      document.getElementById('outline-deck-title').innerText = outline.title || 'Bài giảng trình chiếu';
+      document.getElementById('outline-slide-count-badge').innerText = (outline.slides || []).length + ' Slide';
+
+      const listEl = document.getElementById('outline-slides-list');
+      listEl.innerHTML = (outline.slides || []).map((s, idx) => `
+        <div class="neo-card p-3.5 sm:p-4 bg-white space-y-2 border-2 border-black">
+          
+          <!-- Slide Header: Horizontal Pill + Title + Category (No ugly wrapping) -->
+          <div class="flex items-center justify-between gap-2">
+            <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-900 text-xs font-black border border-black shrink-0 whitespace-nowrap">
+              Slide ${idx + 1}
+            </span>
+            <span contenteditable="true" class="text-xs sm:text-sm font-black text-slate-900 flex-1 leading-snug px-1 truncate">
+              ${escapeHtml(s.title || 'Slide ' + (idx + 1))}
+            </span>
+            <span class="text-[10px] sm:text-xs font-extrabold text-slate-400 uppercase shrink-0 truncate max-w-[120px] text-right">
+              ${escapeHtml(s.badge || 'NỘI DUNG')}
+            </span>
           </div>
 
-          <div class="space-y-1 pl-2 border-l-2 border-blue-500 text-xs font-medium text-slate-700">
+          <!-- Bullets list with comfortable line height -->
+          <ul class="space-y-1.5 pl-2 text-xs sm:text-sm text-slate-700 font-medium">
             ${(s.bullets || []).map((b, bIdx) => `
-              <div class="flex items-start gap-1.5">
-                <span class="text-blue-600 font-bold">•</span>
-                <span contenteditable="true" onblur="updateOutlineBullet(${idx}, ${bIdx}, this.innerText)" class="flex-1">${b}</span>
-              </div>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 shrink-0"></span>
+                <span contenteditable="true" class="flex-1 leading-relaxed">${escapeHtml(b)}</span>
+              </li>
             `).join('')}
-          </div>
+          </ul>
 
+          <!-- Visual Idea: Fixed No-Wrap Label -->
           ${s.visualIdea ? `
-            <div class="text-[11px] text-slate-500 font-medium flex items-center gap-1.5 pt-1 border-t border-black/10">
-              <span class="text-blue-600 font-bold">💡 Đồ họa gợi ý:</span>
-              <span>${s.visualIdea}</span>
+            <div class="text-[11px] text-slate-600 font-medium flex items-start gap-1.5 pt-2 border-t border-black/10 leading-snug">
+              <span class="text-blue-600 font-black shrink-0 whitespace-nowrap">💡 Đồ họa gợi ý:</span>
+              <span class="flex-1 text-slate-600 leading-relaxed">${escapeHtml(s.visualIdea)}</span>
             </div>
           ` : ''}
         </div>
       `).join('');
 
-      card.scrollIntoView({ behavior: 'smooth' });
-      gsap.from(card, { opacity: 0, y: 15, duration: 0.35, ease: 'power2.out' });
-      lucide.createIcons();
+      inspector.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function updateOutlineSlideTitle(idx, newTitle) {
-      if (currentOutline && currentOutline.slides[idx]) {
-        currentOutline.slides[idx].title = newTitle.trim();
-      }
-    }
-
-    function updateOutlineBullet(slideIdx, bulletIdx, text) {
-      if (currentOutline && currentOutline.slides[slideIdx] && currentOutline.slides[slideIdx].bullets) {
-        currentOutline.slides[slideIdx].bullets[bulletIdx] = text.trim();
-      }
-    }
-
-    // Step 2: Trigger Server-side Background Worker
-    async function approveOutlineAndGenerate() {
+    // ==========================================
+    // BACKGROUND JOB & ETA ENGINE
+    // ==========================================
+    async function startBackgroundJob() {
       if (!currentOutline) return;
 
       try {
@@ -816,266 +963,419 @@
           body: JSON.stringify({ outline: currentOutline })
         });
         const data = await res.json();
-        if (!data.success) throw new Error(data.error);
+        if (data.success && data.jobId) {
+          // Switch to ETA progress screen
+          document.getElementById('view-chat').classList.add('hidden');
+          const jobView = document.getElementById('view-job-status');
+          jobView.classList.remove('hidden');
+          gsap.fromTo(jobView, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.3 });
 
-        activeJobId = data.jobId;
-
-        // Switch to Job Status View with ETA & Safe to Switch Tab Notice
-        document.getElementById('view-chat').classList.add('hidden');
-        document.getElementById('view-job-status').classList.remove('hidden');
-        currentTab = 'job-status';
-
-        startJobPolling(activeJobId);
-
+          pollJobStatus(data.jobId);
+        } else {
+          alert('Không thể tạo tiến trình: ' + (data.error || ''));
+        }
       } catch (err) {
-        alert('Lỗi khởi động tiến trình: ' + err.message);
+        alert('Lỗi khởi chạy tiến trình: ' + err.message);
       }
     }
 
-    function startJobPolling(jobId) {
-      if (jobPollInterval) clearInterval(jobPollInterval);
+    function pollJobStatus(jobId) {
+      if (activeJobPollInterval) clearInterval(activeJobPollInterval);
 
-      jobPollInterval = setInterval(async () => {
+      activeJobPollInterval = setInterval(async () => {
         try {
-          const res = await fetch('/api/jobs/' + jobId);
+          const res = await fetch(`/api/jobs/${jobId}`);
           const data = await res.json();
           if (data.success && data.job) {
-            const j = data.job;
+            updateJobUI(data.job);
 
-            // Update UI ETA & Progress
-            document.getElementById('job-status-text').textContent = j.stageText || 'Đang xử lý...';
-            document.getElementById('job-progress-percent').textContent = j.progress + '%';
-            document.getElementById('job-progress-bar').style.width = j.progress + '%';
-            document.getElementById('job-eta-display').textContent = j.etaSeconds > 0 ? `Ước tính: ~${j.etaSeconds} giây` : 'Hoàn tất!';
-
-            if (j.status === 'completed' && j.resultDeck) {
-              clearInterval(jobPollInterval);
-              currentDeck = j.resultDeck;
-              currentSlideIdx = 0;
-
-              // Confetti celebration
-              confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
-
-              // Transition to Canvas View
-              setTimeout(() => {
-                document.getElementById('view-job-status').classList.add('hidden');
-                document.getElementById('view-canvas').classList.remove('hidden');
-                currentTab = 'canvas';
-                switchTab('canvas');
-                renderInteractiveCanvas();
-                fetchSavedDecks();
-              }, 1200);
-            } else if (j.status === 'failed') {
-              clearInterval(jobPollInterval);
-              alert('Tiến trình tạo slide thất bại: ' + j.error);
-              switchTab('chat');
+            if (data.job.status === 'completed') {
+              clearInterval(activeJobPollInterval);
+              currentDeck = data.job.resultDeck;
+              confetti({ particleCount: 75, spread: 70, origin: { y: 0.6 } });
+              document.getElementById('job-completed-action-bar').classList.remove('hidden');
+              fetchDecksLibrary();
             }
           }
         } catch (err) {
-          console.error('Poll error:', err);
+          console.error('Job polling error:', err);
         }
-      }, 2000);
+      }, 1200);
     }
 
-    // Step 3: Interactive Slide Canvas Engine
-    function renderInteractiveCanvas() {
-      if (!currentDeck || !currentDeck.slides || currentDeck.slides.length === 0) return;
+    function updateJobUI(job) {
+      // Progress Bar & Percentage
+      const bar = document.getElementById('job-progress-bar');
+      const percentText = document.getElementById('job-progress-percent');
+      const stageText = document.getElementById('job-stage-text');
+      const etaText = document.getElementById('job-eta-countdown');
 
-      const total = currentDeck.slides.length;
-      const s = currentDeck.slides[currentSlideIdx];
+      gsap.to(bar, { width: job.progress + '%', duration: 0.4, ease: 'power1.out' });
+      percentText.innerText = job.progress + '%';
+      stageText.innerText = job.stageText || 'Đang xử lý...';
+      etaText.innerText = job.etaSeconds > 0 ? `Ước tính: ~${job.etaSeconds} giây` : 'Hoàn tất!';
 
-      document.getElementById('canvas-deck-title').textContent = currentDeck.meta.title;
-      document.getElementById('canvas-deck-meta').textContent = `${currentDeck.meta.subject || ''} • ${total} Slide • ${currentDeck.meta.teacher || ''}`;
-      document.getElementById('canvas-page-indicator').textContent = `Trang ${currentSlideIdx + 1} / ${total}`;
+      // Update 5 Pipeline steps
+      const currentIdx = job.stageIndex || 1;
+      for (let i = 1; i <= 5; i++) {
+        const stepEl = document.getElementById('pipe-step-' + i);
+        if (!stepEl) continue;
+        const badge = stepEl.querySelector('.step-badge');
 
-      const canvas = document.getElementById('interactive-slide-canvas');
-      
-      // Background color/style application
-      if (s.background && s.background.value) {
-        canvas.style.backgroundColor = s.background.value;
-      } else {
-        canvas.style.backgroundColor = '#FFFFFF';
+        if (i < currentIdx || job.status === 'completed') {
+          stepEl.className = 'flex items-center justify-between p-2 rounded-xl bg-emerald-50 border border-emerald-300 text-xs font-bold text-emerald-950';
+          if (badge) {
+            badge.className = 'step-badge text-[10px] px-2 py-0.5 rounded-full bg-emerald-600 text-white font-extrabold';
+            badge.innerText = 'Xong ✓';
+          }
+        } else if (i === currentIdx) {
+          stepEl.className = 'flex items-center justify-between p-2 rounded-xl bg-blue-50 border border-blue-400 text-xs font-bold text-blue-950';
+          if (badge) {
+            badge.className = 'step-badge text-[10px] px-2 py-0.5 rounded-full bg-blue-600 text-white font-extrabold animate-pulse';
+            badge.innerText = 'Đang chạy';
+          }
+        } else {
+          stepEl.className = 'flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-black/10 text-xs font-bold text-slate-400';
+          if (badge) {
+            badge.className = 'step-badge text-[10px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-500 font-extrabold';
+            badge.innerText = 'Chờ';
+          }
+        }
       }
+    }
 
-      canvas.innerHTML = buildCanvasSlideHtml(s, currentSlideIdx + 1, total);
+    function openCanvasFromJobResult() {
+      if (!currentDeck) return;
+      document.getElementById('view-job-status').classList.add('hidden');
+      openDeckInCanvas(currentDeck);
+    }
 
-      renderCanvasThumbnails();
+    // ==========================================
+    // SLIDE CANVAS STUDIO (LOGIC THỰC THỤ GIỐNG REPO)
+    // ==========================================
+    function openDeckInCanvas(deck) {
+      currentDeck = deck;
+      currentSlideIdx = 0;
 
-      // GSAP smooth slide flip
-      gsap.fromTo(canvas, { opacity: 0.5, x: 20 }, { opacity: 1, x: 0, duration: 0.28, ease: 'power2.out' });
+      // Hide other views and show Canvas view
+      const views = ['view-home', 'view-chat', 'view-job-status', 'view-library'];
+      views.forEach(v => {
+        const el = document.getElementById(v);
+        if (el) el.classList.add('hidden');
+      });
+
+      const canvasView = document.getElementById('view-canvas');
+      canvasView.classList.remove('hidden');
+      gsap.fromTo(canvasView, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25 });
+
+      document.getElementById('canvas-deck-title').innerText = deck.meta.title || 'Slide Deck';
+      renderCurrentSlide();
+      renderPaginationDots();
       lucide.createIcons();
     }
 
-    function buildCanvasSlideHtml(s, num, total) {
-      const badge = `<span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black border border-black inline-block mb-2 cursor-pointer" contenteditable="true" onblur="s.badge=this.innerText">${s.badge || 'BÀI GIẢNG'}</span>`;
+    function closeCanvasStudio() {
+      document.getElementById('view-canvas').classList.add('hidden');
+      switchTab('tab-library');
+    }
 
-      if (s.layout === 'title' || num === 1) {
-        return `
-          <div class="flex flex-col justify-between h-full space-y-4">
-            <div>
-              ${badge}
-              <h1 contenteditable="true" onblur="updateCurrentSlideTitle(this.innerText)" class="text-xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight mb-2">${s.title}</h1>
-              <p contenteditable="true" onblur="s.subtitle=this.innerText" class="text-sm sm:text-base font-bold text-blue-700">${s.subtitle || ''}</p>
-            </div>
+    function renderCurrentSlide() {
+      if (!currentDeck || !currentDeck.slides || currentDeck.slides.length === 0) return;
+      const slide = currentDeck.slides[currentSlideIdx];
+      const stage = document.getElementById('slide-stage');
 
-            <div class="p-3 sm:p-5 rounded-xl bg-white border-2 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-[2px_2px_0px_#000000]">
+      // Update counter
+      document.getElementById('canvas-slide-counter-badge').innerText = `Trang ${currentSlideIdx + 1} / ${currentDeck.slides.length}`;
+      document.getElementById('slide-speaker-notes').innerText = slide.speakerNotes || 'Lời giảng gợi ý cho trang này...';
+
+      // Set background
+      const currentBg = BACKGROUND_PRESETS[currentBgIdx];
+      stage.style.background = currentBg.bg;
+      stage.className = `w-full aspect-[16/9] min-h-[340px] sm:min-h-[480px] rounded-2xl border-2 border-black p-4 sm:p-7 relative overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-[inset_0_0_12px_rgba(0,0,0,0.03)] ${FONT_PRESETS[currentFontIdx].css} ${currentBg.textDark ? 'text-slate-900' : 'text-white'}`;
+
+      // Build Rich Slide HTML based on Layout & Content
+      let slideHtml = '';
+
+      if (slide.layout === 'title' || currentSlideIdx === 0) {
+        // ==========================================
+        // SLIDE 1: COVER TITLE WITH REAL VISUAL BANNER
+        // ==========================================
+        slideHtml = `
+          <!-- Title Slide Header -->
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-full bg-blue-600 text-white text-xs font-black border border-black uppercase tracking-wider">
+              ${escapeHtml(slide.badge || 'BÀI GIẢNG ĐIỆN TỬ')}
+            </span>
+            <span class="text-xs font-extrabold text-blue-600 uppercase">
+              ${escapeHtml(currentDeck.meta.subject || 'Toán học')} • ${escapeHtml(currentDeck.meta.grade || 'Lớp 10')}
+            </span>
+          </div>
+
+          <!-- Title & Subtitle -->
+          <div class="space-y-2 my-auto">
+            <h1 contenteditable="true" class="text-xl sm:text-3xl md:text-4xl font-black tracking-tight leading-snug sm:leading-tight">
+              ${escapeHtml(slide.title)}
+            </h1>
+            <p contenteditable="true" class="text-xs sm:text-base font-semibold text-blue-600 max-w-xl leading-relaxed">
+              ${escapeHtml(slide.subtitle || 'Khám phá kiến thức cốt lõi, công thức và ứng dụng thực tiễn.')}
+            </p>
+          </div>
+
+          <!-- Cover Footer Profile Card -->
+          <div class="flex items-center justify-between p-3 rounded-xl bg-slate-100/90 border-2 border-black">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-xs border border-black">
+                GV
+              </div>
               <div>
-                <div class="text-[10px] font-bold text-slate-400 uppercase">GIẢNG VIÊN</div>
-                <div class="text-xs sm:text-sm font-black text-slate-900" contenteditable="true" onblur="currentDeck.meta.teacher=this.innerText">${currentDeck.meta.teacher || 'Thầy/Cô'}</div>
+                <h4 contenteditable="true" class="text-xs sm:text-sm font-black text-slate-900">
+                  ${escapeHtml(currentDeck.meta.teacher || 'Thầy/Cô Giảng Viên')}
+                </h4>
+                <p class="text-[10px] text-slate-500 font-bold">Giáo án điện tử chuẩn CV 5512</p>
               </div>
-              <div class="sm:text-right">
-                <div class="text-[10px] font-bold text-slate-400 uppercase">CHỦ ĐỀ</div>
-                <div class="text-xs font-black text-blue-600">${currentDeck.meta.subject || 'Chuyên đề'}</div>
+            </div>
+            <span class="text-[10px] font-black uppercase text-slate-400">Trình Chiếu 16:9</span>
+          </div>
+        `;
+
+      } else if (slide.diagram && slide.diagram.type === 'right-triangle') {
+        // ==========================================
+        // SLIDE 2: CONCEPT WITH REAL SVG RIGHT TRIANGLE
+        // ==========================================
+        slideHtml = `
+          <div class="flex items-center justify-between pb-2 border-b border-black/10">
+            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'KHÁI NIỆM TRỌNG TÂM')}
+            </span>
+            <span class="text-[11px] font-bold text-slate-400">Hình Học Trực Quan</span>
+          </div>
+
+          <h2 contenteditable="true" class="text-base sm:text-2xl font-black tracking-tight my-1">
+            ${escapeHtml(slide.title)}
+          </h2>
+
+          <!-- Split: Diagram on Left, Explanation Bento on Right -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-auto items-center">
+            
+            <!-- Real SVG Right Triangle Diagram -->
+            <div class="p-2 sm:p-3 rounded-xl bg-blue-50/60 border-2 border-black flex flex-col items-center justify-center relative">
+              <svg viewBox="0 0 240 160" class="w-full h-32 sm:h-44">
+                <!-- Triangle ABC: Right angled at B -->
+                <polygon points="30,130 190,130 190,30" fill="rgba(37, 99, 235, 0.08)" stroke="#000000" stroke-width="2.5" stroke-linejoin="round" />
+                
+                <!-- Right angle marker at B (190, 130) -->
+                <polyline points="175,130 175,115 190,115" fill="none" stroke="#000000" stroke-width="2" />
+                <circle cx="182" cy="122" r="1.5" fill="#000000" />
+
+                <!-- Angle Alpha Arc at A (30, 130) -->
+                <path d="M 60,130 A 30,30 0 0,0 55,112" fill="none" stroke="#2563EB" stroke-width="2.5" />
+                <text x="68" y="124" font-size="12" font-weight="900" fill="#2563EB">α</text>
+
+                <!-- Vertex Labels -->
+                <text x="18" y="136" font-size="12" font-weight="900" fill="#000">A</text>
+                <text x="198" y="136" font-size="12" font-weight="900" fill="#000">B</text>
+                <text x="198" y="30" font-size="12" font-weight="900" fill="#000">C</text>
+
+                <!-- Side Labels with distinctive colors -->
+                <!-- Cạnh Kề (AB) -->
+                <text x="100" y="148" font-size="10" font-weight="900" fill="#16A34A">Cạnh Kề (AB)</text>
+                <!-- Cạnh Đối (BC) -->
+                <text x="198" y="85" font-size="10" font-weight="900" fill="#DC2626">Cạnh Đối (BC)</text>
+                <!-- Cạnh Huyền (AC) -->
+                <text x="90" y="70" font-size="10" font-weight="900" fill="#2563EB" transform="rotate(-32 100 75)">Cạnh Huyền (AC)</text>
+              </svg>
+              <span class="text-[10px] font-black text-slate-500 uppercase mt-1">Sơ đồ: Tam Giác ABC (Vuông tại B)</span>
+            </div>
+
+            <!-- Concept Cards -->
+            <div class="space-y-2">
+              <div class="p-2.5 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000]">
+                <span class="text-[10px] font-black text-blue-600 uppercase">Đặc điểm 1</span>
+                <h4 class="text-xs sm:text-sm font-black text-slate-900">Góc nhọn α tại đỉnh A</h4>
+                <p class="text-[11px] text-slate-600 font-medium">Cạnh đối diện góc α là cạnh BC; Cạnh kề góc α là cạnh AB.</p>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-white border-2 border-black shadow-[2px_2px_0px_#000]">
+                <span class="text-[10px] font-black text-emerald-600 uppercase">Đặc điểm 2</span>
+                <h4 class="text-xs sm:text-sm font-black text-slate-900">Cạnh Huyền AC</h4>
+                <p class="text-[11px] text-slate-600 font-medium">Là cạnh dài nhất trong tam giác vuông, luôn đối diện góc vuông B.</p>
               </div>
             </div>
 
-            <div class="pt-2 border-t border-black/10 flex items-start gap-1.5 text-[11px] text-slate-500 font-medium">
-              <span class="text-blue-600 font-extrabold shrink-0">💡 Lời giảng:</span>
-              <span contenteditable="true" onblur="s.speakerNotes=this.innerText">${s.speakerNotes || 'Lời giảng gợi ý cho slide mở đầu.'}</span>
+          </div>
+        `;
+
+      } else if (slide.layout === 'formula') {
+        // ==========================================
+        // SLIDE 3: BENTO 4 CÔNG THỨC LƯỢNG GIÁC
+        // ==========================================
+        slideHtml = `
+          <div class="flex items-center justify-between pb-2 border-b border-black/10">
+            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'BỘ TỨ CÔNG THỨC')}
+            </span>
+            <span class="text-[11px] font-bold text-slate-400">Toán 9 • Lượng Giác</span>
+          </div>
+
+          <h2 contenteditable="true" class="text-base sm:text-2xl font-black tracking-tight my-1">
+            ${escapeHtml(slide.title)}
+          </h2>
+
+          <!-- 4 Formula Bento Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 my-auto">
+            <!-- Sin -->
+            <div class="p-2.5 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1">
+              <span class="px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-black">SIN</span>
+              <h3 contenteditable="true" class="text-xs sm:text-sm font-black text-blue-600">Đối / Huyền</h3>
+              <p contenteditable="true" class="text-[10px] text-slate-600 font-medium">sin α = BC / AC</p>
             </div>
+
+            <!-- Cos -->
+            <div class="p-2.5 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1">
+              <span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-black">COS</span>
+              <h3 contenteditable="true" class="text-xs sm:text-sm font-black text-emerald-600">Kề / Huyền</h3>
+              <p contenteditable="true" class="text-[10px] text-slate-600 font-medium">cos α = AB / AC</p>
+            </div>
+
+            <!-- Tan -->
+            <div class="p-2.5 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1">
+              <span class="px-2 py-0.5 rounded bg-amber-500 text-white text-[10px] font-black">TAN</span>
+              <h3 contenteditable="true" class="text-xs sm:text-sm font-black text-amber-600">Đối / Kề</h3>
+              <p contenteditable="true" class="text-[10px] text-slate-600 font-medium">tan α = BC / AB</p>
+            </div>
+
+            <!-- Cot -->
+            <div class="p-2.5 sm:p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1">
+              <span class="px-2 py-0.5 rounded bg-purple-600 text-white text-[10px] font-black">COT</span>
+              <h3 contenteditable="true" class="text-xs sm:text-sm font-black text-purple-600">Kề / Đối</h3>
+              <p contenteditable="true" class="text-[10px] text-slate-600 font-medium">cot α = AB / BC</p>
+            </div>
+          </div>
+
+          <!-- Mnemonic Box -->
+          <div class="p-2 rounded-xl bg-yellow-100/80 border-2 border-black text-xs font-black text-slate-900 flex items-center gap-2">
+            <span>💡 Mẹo Thần Chú:</span>
+            <span class="font-bold text-slate-700">Sao Đi Học - Cứ Khóc Hoài - Thôi Đừng Khóc - Có Kẹo Đây!</span>
+          </div>
+        `;
+
+      } else {
+        // ==========================================
+        // GENERAL SLIDE WITH BENTO ELEMENTS
+        // ==========================================
+        const elements = slide.elements || [];
+        slideHtml = `
+          <div class="flex items-center justify-between pb-2 border-b border-black/10">
+            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-black border border-black uppercase">
+              ${escapeHtml(slide.badge || 'NỘI DUNG BÀI HỌC')}
+            </span>
+            <span class="text-[11px] font-bold text-slate-400">Trang ${currentSlideIdx + 1}</span>
+          </div>
+
+          <h2 contenteditable="true" class="text-base sm:text-2xl font-black tracking-tight my-1">
+            ${escapeHtml(slide.title)}
+          </h2>
+
+          <!-- Bento Grid of Elements -->
+          <div class="grid grid-cols-1 sm:grid-cols-${Math.min(elements.length, 3)} gap-2 sm:gap-3 my-auto">
+            ${elements.map((el, elIdx) => `
+              <div class="p-3 rounded-xl bg-white border-2 border-black shadow-[2.5px_2.5px_0px_#000] space-y-1.5 relative group">
+                <button onclick="removeSlideElement(${elIdx})" class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-red-100 text-red-600 font-black text-xs opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+                <span class="px-2 py-0.5 rounded text-[9px] font-black text-white" style="background-color: ${el.badgeColor || '#2563EB'}">
+                  ${escapeHtml(el.tag || 'Mục ' + (elIdx + 1))}
+                </span>
+                <h4 contenteditable="true" class="text-xs sm:text-sm font-black text-slate-900">
+                  ${escapeHtml(el.title)}
+                </h4>
+                <p contenteditable="true" class="text-[11px] text-slate-600 font-medium leading-relaxed">
+                  ${escapeHtml(el.desc)}
+                </p>
+              </div>
+            `).join('')}
           </div>
         `;
       }
 
-      // Content / Bento Layout
-      const elementsHtml = (s.elements || []).map((el, elIdx) => `
-        <div class="p-3 rounded-xl bg-white border-2 border-black flex flex-col justify-between space-y-1.5 shadow-[2px_2px_0px_#000000] relative group">
-          <div class="flex items-center justify-between">
-            <span class="px-1.5 py-0.2 rounded bg-blue-600 text-white font-black text-[10px]" contenteditable="true" onblur="el.tag=this.innerText">${el.tag || 'Mục ' + (elIdx + 1)}</span>
-            <button onclick="deleteElementFromSlide(${elIdx})" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-600 text-xs font-bold transition">×</button>
-          </div>
-          <div class="text-xs font-black text-slate-950" contenteditable="true" onblur="el.title=this.innerText">${el.title}</div>
-          <div class="text-[11px] text-slate-600 font-medium leading-relaxed" contenteditable="true" onblur="el.desc=this.innerText">${el.desc || ''}</div>
-        </div>
-      `).join('');
-
-      return `
-        <div class="flex flex-col justify-between h-full space-y-3">
-          <div>
-            ${badge}
-            <h2 contenteditable="true" onblur="updateCurrentSlideTitle(this.innerText)" class="text-base sm:text-2xl font-black text-slate-950 mb-3 tracking-tight leading-snug">${s.title}</h2>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-h-[260px] overflow-y-auto pr-1">
-              ${elementsHtml}
-            </div>
-          </div>
-
-          <div class="pt-2 border-t border-black/10 flex items-start gap-1.5 text-[11px] text-slate-500 font-medium">
-            <span class="text-blue-600 font-extrabold shrink-0">💡 Lời giảng GV:</span>
-            <span contenteditable="true" onblur="s.speakerNotes=this.innerText">${s.speakerNotes || 'Lời giảng gợi ý cho slide.'}</span>
-          </div>
-        </div>
-      `;
+      stage.innerHTML = slideHtml;
     }
 
-    function updateCurrentSlideTitle(val) {
-      if (currentDeck && currentDeck.slides[currentSlideIdx]) {
-        currentDeck.slides[currentSlideIdx].title = val.trim();
-      }
-    }
+    function renderPaginationDots() {
+      const dotsContainer = document.getElementById('slide-dots-pagination');
+      if (!currentDeck || !currentDeck.slides) return;
 
-    function renderCanvasThumbnails() {
-      if (!currentDeck) return;
-      const container = document.getElementById('canvas-thumbnails-strip');
-      container.innerHTML = currentDeck.slides.map((s, idx) => `
-        <button onclick="goToCanvasSlide(${idx})" class="w-7 h-6 sm:w-8 sm:h-7 rounded-md border text-[10px] font-black shrink-0 transition-all ${idx === currentSlideIdx ? 'bg-blue-600 text-white border-black shadow-[1.5px_1.5px_0px_#000000]' : 'bg-white text-slate-700 border-black/30 hover:border-black'}">
-          ${idx + 1}
+      dotsContainer.innerHTML = currentDeck.slides.map((_, i) => `
+        <button onclick="goToSlide(${i})" class="px-2.5 py-1 rounded-lg text-xs font-black border border-black ${i === currentSlideIdx ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 hover:bg-slate-100'}">
+          ${i + 1}
         </button>
       `).join('');
     }
 
-    function goToCanvasSlide(idx) {
-      currentSlideIdx = idx;
-      renderInteractiveCanvas();
+    function goToSlide(idx) {
+      if (!currentDeck || !currentDeck.slides) return;
+      currentSlideIdx = Math.max(0, Math.min(idx, currentDeck.slides.length - 1));
+      renderCurrentSlide();
+      renderPaginationDots();
     }
 
-    function canvasNextSlide() {
-      if (!currentDeck) return;
-      if (currentSlideIdx < currentDeck.slides.length - 1) {
-        currentSlideIdx++;
-        renderInteractiveCanvas();
-        if (!document.getElementById('fullscreen-presentation-modal').classList.contains('hidden')) {
-          renderFullscreenSlide();
-        }
-      }
-    }
-
-    function canvasPrevSlide() {
-      if (!currentDeck) return;
+    function prevSlide() {
       if (currentSlideIdx > 0) {
-        currentSlideIdx--;
-        renderInteractiveCanvas();
-        if (!document.getElementById('fullscreen-presentation-modal').classList.contains('hidden')) {
-          renderFullscreenSlide();
-        }
+        goToSlide(currentSlideIdx - 1);
       }
     }
 
-    // Canvas Element Actions
-    function toggleBgMenu() {
-      const menu = document.getElementById('bg-menu');
-      menu.classList.toggle('hidden');
+    function nextSlide() {
+      if (currentDeck && currentSlideIdx < currentDeck.slides.length - 1) {
+        goToSlide(currentSlideIdx + 1);
+      }
     }
 
-    function changeCurrentBg(colorHex) {
-      if (!currentDeck || !currentDeck.slides[currentSlideIdx]) return;
-      currentDeck.slides[currentSlideIdx].background = { type: 'solid', value: colorHex };
-      renderInteractiveCanvas();
-      document.getElementById('bg-menu').classList.add('hidden');
+    // Canvas Actions
+    function cycleBackground() {
+      currentBgIdx = (currentBgIdx + 1) % BACKGROUND_PRESETS.length;
+      renderCurrentSlide();
     }
 
-    function addNewElementToSlide() {
-      if (!currentDeck || !currentDeck.slides[currentSlideIdx]) return;
-      const s = currentDeck.slides[currentSlideIdx];
-      if (!s.elements) s.elements = [];
-      const newIdx = s.elements.length + 1;
-      s.elements.push({
-        id: 'el-' + Date.now(),
+    function cycleFontFamily() {
+      currentFontIdx = (currentFontIdx + 1) % FONT_PRESETS.length;
+      document.getElementById('current-font-name').innerText = FONT_PRESETS[currentFontIdx].name;
+      renderCurrentSlide();
+    }
+
+    function addSlideElement() {
+      if (!currentDeck || !currentDeck.slides) return;
+      const slide = currentDeck.slides[currentSlideIdx];
+      if (!slide.elements) slide.elements = [];
+      const newIdx = slide.elements.length + 1;
+      slide.elements.push({
+        id: 'el-custom-' + Date.now(),
         type: 'card',
         tag: 'Mục ' + newIdx,
         title: 'Nội dung mới ' + newIdx,
-        desc: 'Bấm vào để nhập mô tả giải thích chi tiết...',
-        icon: 'sparkles'
+        desc: 'Bấm vào để nhập mô tả hoặc công thức cho mục này...',
+        badgeColor: '#2563EB'
       });
-      renderInteractiveCanvas();
+      renderCurrentSlide();
     }
 
-    function deleteElementFromSlide(elIdx) {
-      if (!currentDeck || !currentDeck.slides[currentSlideIdx]) return;
-      currentDeck.slides[currentSlideIdx].elements.splice(elIdx, 1);
-      renderInteractiveCanvas();
-    }
-
-    // Fullscreen Presentation Mode
-    function openFullscreenPresentation() {
-      if (!currentDeck) return;
-      const modal = document.getElementById('fullscreen-presentation-modal');
-      modal.classList.remove('hidden');
-      document.getElementById('pres-modal-title').textContent = currentDeck.meta.title;
-      renderFullscreenSlide();
-      gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' });
-    }
-
-    function closeFullscreenPresentation() {
-      const modal = document.getElementById('fullscreen-presentation-modal');
-      gsap.to(modal, { opacity: 0, duration: 0.2, onComplete: () => modal.classList.add('hidden') });
-    }
-
-    function renderFullscreenSlide() {
-      if (!currentDeck) return;
-      const total = currentDeck.slides.length;
-      const s = currentDeck.slides[currentSlideIdx];
-      document.getElementById('pres-modal-indicator').textContent = `Trang ${currentSlideIdx + 1} / ${total}`;
-      const canvas = document.getElementById('pres-modal-canvas');
-      canvas.innerHTML = buildCanvasSlideHtml(s, currentSlideIdx + 1, total);
-      if (s.background && s.background.value) {
-        canvas.style.backgroundColor = s.background.value;
+    function removeSlideElement(elIdx) {
+      if (!currentDeck || !currentDeck.slides) return;
+      const slide = currentDeck.slides[currentSlideIdx];
+      if (slide.elements && slide.elements[elIdx]) {
+        slide.elements.splice(elIdx, 1);
+        renderCurrentSlide();
       }
-      lucide.createIcons();
     }
 
-    // PPTX Download
-    async function downloadCurrentPptxFile() {
+    function enterFullscreenPresentation() {
+      const stage = document.getElementById('slide-stage');
+      if (stage.requestFullscreen) {
+        stage.requestFullscreen();
+      } else if (stage.webkitRequestFullscreen) {
+        stage.webkitRequestFullscreen();
+      }
+    }
+
+    async function exportCurrentDeckPptx() {
       if (!currentDeck) return;
       try {
         const res = await fetch('/api/export-pptx', {
@@ -1083,76 +1383,87 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(currentDeck)
         });
-        if (!res.ok) throw new Error('Lỗi xuất file PowerPoint');
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `PPT_Master_${(currentDeck.meta.title || 'Slide').replace(/[^a-zA-Z0-9]/g, '_')}.pptx`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url);
+        if (res.ok) {
+          const blob = await res.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${(currentDeck.meta.title || 'Slide_Deck').replace(/[^a-zA-Z0-9]/g, '_')}.pptx`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        } else {
+          alert('Không thể tạo file PPTX.');
+        }
       } catch (err) {
-        alert('Không thể tải file .pptx: ' + err.message);
+        alert('Lỗi xuất PowerPoint: ' + err.message);
       }
     }
 
-    // Library Tab Management
-    async function fetchSavedDecks() {
+    // ==========================================
+    // LIBRARY VIEW (QUẢN LÝ BÀI GIẢNG)
+    // ==========================================
+    async function fetchDecksLibrary() {
       try {
         const res = await fetch('/api/slides');
         const data = await res.json();
         if (data.success && data.decks) {
-          savedDecksList = data.decks;
-          document.getElementById('library-badge-count').textContent = savedDecksList.length;
-          renderLibraryGrid();
+          savedDecks = data.decks;
+          renderLibraryDecks();
+          // Update counts
+          document.querySelectorAll('.decks-count-text').forEach(el => el.innerText = savedDecks.length);
+          const badgeEl = document.getElementById('badge-library-count');
+          if (badgeEl) badgeEl.innerText = savedDecks.length;
         }
       } catch (err) {
-        console.error('Error fetching decks:', err);
+        console.error('Fetch library error:', err);
       }
     }
 
-    function renderLibraryGrid() {
-      const grid = document.getElementById('library-decks-grid');
-      if (savedDecksList.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full py-12 text-center neo-card p-6 bg-white">
-            <i data-lucide="folder-open" class="w-10 h-10 text-slate-300 mx-auto mb-2"></i>
-            <h4 class="text-sm font-black text-slate-700">Chưa có bài giảng nào được lưu</h4>
-            <p class="text-xs text-slate-500 mt-0.5">Hãy chuyển sang tab "Chat Tạo" để xây dựng bài giảng đầu tiên.</p>
+    function renderLibraryDecks() {
+      const container = document.getElementById('library-decks-list');
+      if (!container) return;
+
+      if (savedDecks.length === 0) {
+        container.innerHTML = `
+          <div class="neo-card p-6 bg-white text-center space-y-2">
+            <span class="text-3xl">📂</span>
+            <h4 class="text-sm font-black text-slate-800">Chưa có bài giảng nào</h4>
+            <p class="text-xs text-slate-500 font-medium">Hãy qua tab "Chat Tạo" để nhờ AI tạo bộ slide đầu tiên nhé!</p>
+            <button onclick="switchTab('tab-chat')" class="neo-btn px-4 py-2 bg-blue-600 text-white text-xs font-black mt-2">
+              Tạo Ngay Bây Giờ
+            </button>
           </div>
         `;
-        lucide.createIcons();
         return;
       }
 
-      grid.innerHTML = savedDecksList.map(deck => `
-        <div class="neo-card p-4 bg-white flex flex-col justify-between space-y-3">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-1.5">
-              <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black border border-black">${deck.meta.subject || 'Chuyên đề'}</span>
-              <span class="text-[10px] font-extrabold text-slate-400">${deck.slides ? deck.slides.length : 0} Slide</span>
-            </div>
-            <h4 class="text-sm sm:text-base font-black text-slate-950 tracking-tight leading-snug line-clamp-2">${deck.meta.title}</h4>
-            <p class="text-[11px] font-bold text-slate-500 mt-0.5">${deck.meta.grade || ''} • ${deck.meta.teacher || ''}</p>
-          </div>
-
-          <div class="pt-3 border-t border-black/10 flex items-center justify-between gap-2">
-            <div class="flex items-center gap-1.5">
-              <button onclick="loadDeckToCanvas('${deck.id}')" class="neo-btn neo-btn-white px-3 py-1.5 text-xs">
-                <i data-lucide="eye" class="w-3.5 h-3.5 text-blue-600"></i>
-                Mở Canvas
-              </button>
-              <button onclick="downloadLibraryDeckPptx('${deck.id}')" class="neo-btn neo-btn-primary px-3 py-1.5 text-xs">
-                <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                PPTX
-              </button>
+      container.innerHTML = savedDecks.map((deck, idx) => `
+        <div class="neo-card p-4 sm:p-5 bg-white space-y-3">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-900 border border-black text-[10px] font-black uppercase">
+                  ${escapeHtml(deck.meta.subject || 'Chuyên đề')}
+                </span>
+                <span class="text-[11px] font-bold text-slate-400">
+                  ${(deck.slides || []).length} Slide
+                </span>
+              </div>
+              <h3 class="text-sm sm:text-base font-black text-slate-900">
+                ${escapeHtml(deck.meta.title || 'Bài giảng không tên')}
+              </h3>
             </div>
 
-            <button onclick="deleteLibraryDeck('${deck.id}')" class="w-7 h-7 rounded-lg border border-black/30 hover:border-black hover:bg-red-50 text-slate-400 hover:text-red-600 flex items-center justify-center transition">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            </button>
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="openDeckById('${deck.id}')" class="neo-btn px-3 py-1.5 bg-blue-600 text-white text-xs font-black">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i> Mở Canvas
+              </button>
+              <button onclick="deleteDeckById('${deck.id}')" class="neo-btn px-2 py-1.5 bg-white text-red-600 text-xs font-black" title="Xóa">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
           </div>
         </div>
       `).join('');
@@ -1160,35 +1471,42 @@
       lucide.createIcons();
     }
 
-    function loadDeckToCanvas(id) {
-      const target = savedDecksList.find(d => d.id === id);
-      if (target) {
-        currentDeck = target;
-        currentSlideIdx = 0;
-        switchTab('canvas');
-        renderInteractiveCanvas();
+    function openDeckById(id) {
+      const deck = savedDecks.find(d => d.id === id);
+      if (deck) {
+        openDeckInCanvas(deck);
       }
     }
 
-    async function downloadLibraryDeckPptx(id) {
-      const target = savedDecksList.find(d => d.id === id);
-      if (target) {
-        currentDeck = target;
-        await downloadCurrentPptxFile();
-      }
-    }
-
-    async function deleteLibraryDeck(id) {
-      if (!confirm('Bạn có chắc muốn xóa bộ slide này không?')) return;
-      try {
-        const res = await fetch('/api/slides/' + id, { method: 'DELETE' });
-        const data = await res.json();
-        if (data.success) {
-          await fetchSavedDecks();
+    async function deleteDeckById(id) {
+      if (confirm('Thầy/cô có chắc muốn xóa bộ slide này khỏi thư viện?')) {
+        try {
+          await fetch(`/api/slides/${id}`, { method: 'DELETE' });
+          fetchDecksLibrary();
+        } catch (e) {
+          alert('Lỗi xóa slide: ' + e.message);
         }
-      } catch (err) {
-        alert('Lỗi xóa: ' + err.message);
       }
+    }
+
+    // Keyboard navigation in canvas
+    document.addEventListener('keydown', (e) => {
+      const canvasView = document.getElementById('view-canvas');
+      if (canvasView && !canvasView.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      }
+    });
+
+    // Helper
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
   </script>
 </body>
